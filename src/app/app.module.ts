@@ -1,3 +1,5 @@
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { AuthService } from './services/auth.service';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -28,7 +30,9 @@ import { AngularFireModule } from '@angular/fire';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    AuthService,
+    GooglePlus
   ],
   bootstrap: [AppComponent]
 })

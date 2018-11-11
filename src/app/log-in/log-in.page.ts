@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Platform, LoadingController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -12,7 +12,8 @@ export class LogInPage implements OnInit {
   constructor(
     private platform: Platform,
     public authService: AuthService,
-    public router: Router
+    public router: Router,
+    public loadingController: LoadingController
   ) {}
 
   ngOnInit() {}

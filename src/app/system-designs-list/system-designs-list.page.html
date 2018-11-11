@@ -3,18 +3,14 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title> Home </ion-title>
+    <ion-title> System Design </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <ion-list class="nav-list">
-    <ion-item
-      *ngFor="let item of (categories | async)"
-      (click)="onCategorySelect(item.category)"
-    >
-      <ion-icon [name]="item.icon" slot="start"></ion-icon>
-      {{ item.category }}
+    <ion-item *ngFor="let item of (systemDesigns | async)">
+      {{ item.title }}
       <ion-badge color="primary" slot="end">{{ item.count }}</ion-badge>
     </ion-item>
   </ion-list>

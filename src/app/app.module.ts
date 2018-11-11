@@ -15,6 +15,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
+import { DataService } from './services/data.service';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -32,7 +33,8 @@ import { AngularFireModule } from '@angular/fire';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,
-    GooglePlus
+    GooglePlus,
+    DataService
   ],
   bootstrap: [AppComponent]
 })

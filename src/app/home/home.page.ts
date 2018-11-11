@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Category, CategoryId } from '../models/category.model';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +17,11 @@ import { map } from 'rxjs/operators';
 export class HomePage {
   private categoryCollection: AngularFirestoreCollection<Category>;
   categories: Observable<CategoryId[]>;
-  constructor(private readonly afs: AngularFirestore) {
+  constructor(
+    private readonly afs: AngularFirestore,
+    private router: Router,
+    public dataService: DataService
+  ) {
     console.log('jpme');
     this.categoryCollection = afs.collection<Category>('categories');
     // .snapshotChanges() returns a DocumentChangeAction[], which contains
@@ -30,5 +36,10 @@ export class HomePage {
         })
       )
     );
+  }
+
+  onCategorySelect(id: string) {
+    this.dataService.setCurrentCategory(id);
+    this.router.navigate(['/system-designs-list']);
   }
 }

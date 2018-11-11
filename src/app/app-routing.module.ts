@@ -17,7 +17,8 @@ const routes: Routes = [
   },
   { path: 'log-in', loadChildren: './log-in/log-in.module#LogInPageModule' },
   { path: 'log-out', loadChildren: './log-out/log-out.module#LogOutPageModule' },
-  { path: 'system-designs-list', loadChildren: './system-designs-list/system-designs-list.module#SystemDesignsListPageModule' }
+  { path: 'system-designs-list', loadChildren: './system-designs-list/system-designs-list.module#SystemDesignsListPageModule' },
+  { path: 'system-design-interviews-list', loadChildren: './system-design-interviews-list/system-design-interviews-list.module#SystemDesignInterviewsListPageModule' }
 ];
 
 @NgModule({

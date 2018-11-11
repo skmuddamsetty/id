@@ -7,6 +7,7 @@ import {
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-system-designs-list',
@@ -20,16 +21,17 @@ export class SystemDesignsListPage implements OnInit, OnDestroy {
   systemDesigns: Observable<SystemDesignId[]>;
   constructor(
     private dataService: DataService,
-    private readonly afs: AngularFirestore
+    private readonly afs: AngularFirestore,
+    public router: Router
   ) {}
 
   ngOnInit() {
     this.categoryObservable = this.dataService.getCurrentCategory();
-    this.categoryObservableSub = this.dataService
-      .getCurrentCategory()
-      .subscribe(selectedCategory => {
+    this.categoryObservableSub = this.categoryObservable.subscribe(
+      selectedCategory => {
         this.getSystemDesignsList(selectedCategory);
-      });
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -51,5 +53,10 @@ export class SystemDesignsListPage implements OnInit, OnDestroy {
         })
       )
     );
+  }
+
+  onSystemDesignClick(systemDesignId: string) {
+    this.dataService.setCurrentSystemDesign(systemDesignId);
+    this.router.navigate(['/system-design-interviews-list']);
   }
 }

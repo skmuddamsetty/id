@@ -9,7 +9,10 @@
 
 <ion-content padding>
   <ion-list class="nav-list">
-    <ion-item *ngFor="let item of (systemDesigns | async)">
+    <ion-item
+      *ngFor="let item of (systemDesigns | async)"
+      (click)="onSystemDesignClick(item.key)"
+    >
       {{ item.title }}
       <ion-badge color="primary" slot="end">{{ item.count }}</ion-badge>
     </ion-item>

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.ionic.interview-design" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>MyApp</name>
-    <description>An awesome Ionic/Cordova app.</description>
+    <name>Interview Design</name>
+    <description>An awesome Interview App.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
     <access origin="*" />
@@ -83,6 +83,7 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^2.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="cordova-plugin-googleplus" spec="5.3.2">
-        <variable name="REVERSED_CLIENT_ID" value="168875731860-jjin942or0n97umo57np1dj5kkfrb97j.apps.googleusercontent.com" />
+        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.168875731860-etmqbh7rg8cuvje4b6nvipneirj02apl" />
     </plugin>
+    <engine name="ios" spec="4.5.5" />
 </widget>

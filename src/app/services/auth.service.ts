@@ -71,7 +71,7 @@ export class AuthService {
     // try {
     const gPlusUser = await this.googlePlus.login({
       webClientId:
-        '1040109010983-3fsm0tmpaod1kitov5q4ai3j5bhose60.apps.googleusercontent.com',
+        '168875731860-etmqbh7rg8cuvje4b6nvipneirj02apl.apps.googleusercontent.com',
       offline: true
     });
     return await this.afAuth.auth

@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>system-design-questions-list</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label position="floating">Question</ion-label>
+    <ion-textarea></ion-textarea>
+  </ion-item>
+  <ion-button
+    class="btn"
+    expand="full"
+    shape="round"
+    color="primary"
+    fill="solid"
+    (click)="onPostQuestion()"
+    >Post Question
+  </ion-button>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div text-center><h3>Questions & Answers</h3></div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list class="nav-list">
+    <ion-item
+      *ngFor="let item of (_systemDesignQuestions | async)"
+      (click)="onQuestionClick()"
+    >
+      {{ item.question }}
+    </ion-item>
+  </ion-list>
+</ion-content>

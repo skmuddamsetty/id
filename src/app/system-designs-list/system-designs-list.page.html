@@ -17,4 +17,9 @@
       <ion-badge color="primary" slot="end">{{ item.count }}</ion-badge>
     </ion-item>
   </ion-list>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="goBack()">
+      <ion-icon name="arrow-dropleft"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

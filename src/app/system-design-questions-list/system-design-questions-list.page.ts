@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { SystemDesignAnswersListPage } from './../system-design-answers-list/system-design-answers-list.page';
 import {
   AngularFirestoreCollection,
@@ -10,7 +11,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { ModalController } from '@ionic/angular';
-import { HomePage } from '../home/home.page';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-system-design-questions-list',
@@ -23,14 +24,19 @@ export class SystemDesignQuestionsListPage implements OnInit, OnDestroy {
   selectedSystemDesignKey = '';
   private systemDesignQuestionsCollection: AngularFirestoreCollection<Question>;
   _systemDesignQuestions: Observable<QuestionId[]>;
+  myForm: FormGroup;
+  currentuid = '';
   constructor(
     public dataService: DataService,
     public router: Router,
     private readonly afs: AngularFirestore,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
+    this.initForm();
+    this.currentuid = this.authService.getCurrentUser().uid;
     this.systemDesignObservable = this.dataService.getCurrentSystemDesign();
     this.systemDesignObservableSub = this.systemDesignObservable.subscribe(
       selectedCategory => {
@@ -42,10 +48,12 @@ export class SystemDesignQuestionsListPage implements OnInit, OnDestroy {
 
   onPostQuestion() {
     const question: Question = {
-      question: 'test',
-      key: this.selectedSystemDesignKey
+      question: this.myForm.value.question,
+      key: this.selectedSystemDesignKey,
+      createUserId: this.currentuid
     };
     this.dataService.insertQuestion(question);
+    this.myForm.reset();
   }
 
   getSystemDesignQuestionsList() {
@@ -83,4 +91,17 @@ export class SystemDesignQuestionsListPage implements OnInit, OnDestroy {
       this.systemDesignObservableSub.unsubscribe();
     }
   }
+
+  private initForm() {
+    const question = null;
+    this.myForm = new FormGroup({
+      question: new FormControl(question, Validators.required)
+    });
+  }
+
+  goBack() {
+    this.router.navigate(['/system-design-interviews-list']);
+  }
+
+  onDeleteQuestion(id: string) {}
 }

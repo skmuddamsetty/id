@@ -1,23 +1,29 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>system-design-questions-list</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> System Design Questions </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-item>
-    <ion-label position="floating">Question</ion-label>
-    <ion-textarea></ion-textarea>
-  </ion-item>
-  <ion-button
-    class="btn"
-    expand="full"
-    shape="round"
-    color="primary"
-    fill="solid"
-    (click)="onPostQuestion()"
-    >Post Question
-  </ion-button>
+  <form [formGroup]="myForm" (ngSubmit)="onPostQuestion()">
+    <ion-item>
+      <ion-label position="floating">Question</ion-label>
+      <ion-textarea formControlName="question"></ion-textarea>
+    </ion-item>
+    <ion-button
+      class="btn"
+      expand="full"
+      shape="round"
+      color="primary"
+      fill="solid"
+      (click)="onPostQuestion()"
+      [disabled]="!myForm.valid"
+      >Post Question
+    </ion-button>
+  </form>
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -25,12 +31,33 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
   <ion-list class="nav-list">
-    <ion-item
-      *ngFor="let item of (_systemDesignQuestions | async)"
-      (click)="onQuestionClick(item.id)"
-    >
-      {{ item.question }}
-    </ion-item>
+    <ion-item-sliding *ngFor="let item of (_systemDesignQuestions | async)">
+      <ion-item (click)="onQuestionClick(item.id)">
+        {{ item.question }}
+      </ion-item>
+      <ion-item-options *ngIf="this.currentuid === item.createUserId">
+        <ion-button
+          size="small"
+          color="danger"
+          fill="solid"
+          (click)="onDeleteQuestion(item.id)"
+          ><ion-icon name="trash"></ion-icon> Delete
+        </ion-button>
+        <ion-button
+          size="small"
+          color="primary"
+          fill="solid"
+          (click)="onDeleteQuestion(item.id)"
+          ><ion-icon name="create"></ion-icon> Edit
+        </ion-button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="goBack()">
+      <ion-icon name="arrow-dropleft"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

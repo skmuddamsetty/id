@@ -1,5 +1,10 @@
 <ion-header>
-  <ion-toolbar> <ion-title>System Design Interviews</ion-title> </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> System Design Interviews </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
@@ -13,7 +18,7 @@
           color="primary"
           fill="solid"
           (click)="onClickAskQuestion()"
-          >Ask a Question Related to this System Design</ion-button
+          >Ask a Question</ion-button
         >
       </ion-col>
       <ion-col>
@@ -36,4 +41,9 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="goBack()">
+      <ion-icon name="arrow-dropleft"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

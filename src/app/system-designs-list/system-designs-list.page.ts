@@ -59,4 +59,8 @@ export class SystemDesignsListPage implements OnInit, OnDestroy {
     this.dataService.setCurrentSystemDesign(systemDesignId);
     this.router.navigate(['/system-design-interviews-list']);
   }
+
+  goBack() {
+    this.router.navigate(['/home']);
+  }
 }

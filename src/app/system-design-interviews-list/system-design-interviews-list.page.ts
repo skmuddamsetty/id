@@ -35,4 +35,8 @@ export class SystemDesignInterviewsListPage implements OnInit, OnDestroy {
   onClickAskQuestion() {
     this.router.navigate(['/system-design-questions-list']);
   }
+
+  goBack() {
+    this.router.navigate(['/system-designs-list']);
+  }
 }

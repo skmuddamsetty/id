@@ -10,6 +10,7 @@ import {
 export class DataService {
   private _messageSource: BehaviorSubject<any> = new BehaviorSubject('');
   private _systemDesignSource: BehaviorSubject<any> = new BehaviorSubject('');
+  private _questionDesignSource: BehaviorSubject<any> = new BehaviorSubject('');
   systemDesignQuestionsCollection: AngularFirestoreCollection<Question>;
 
   constructor(private readonly afs: AngularFirestore) {}
@@ -28,6 +29,14 @@ export class DataService {
 
   setCurrentSystemDesign(systemDesignId: string) {
     this._systemDesignSource.next(systemDesignId);
+  }
+
+  getCurrentQuestionId() {
+    return this._questionDesignSource.asObservable();
+  }
+
+  setCurrentQuestionId(currentQuestionId: string) {
+    this._questionDesignSource.next(currentQuestionId);
   }
 
   insertQuestion(question: Question) {

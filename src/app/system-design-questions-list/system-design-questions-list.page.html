@@ -28,7 +28,7 @@
   <ion-list class="nav-list">
     <ion-item
       *ngFor="let item of (_systemDesignQuestions | async)"
-      (click)="onQuestionClick()"
+      (click)="onQuestionClick(item.id)"
     >
       {{ item.question }}
     </ion-item>

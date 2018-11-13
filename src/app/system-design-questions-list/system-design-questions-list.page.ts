@@ -1,3 +1,4 @@
+import { SystemDesignAnswersListPage } from './../system-design-answers-list/system-design-answers-list.page';
 import {
   AngularFirestoreCollection,
   AngularFirestore
@@ -64,13 +65,14 @@ export class SystemDesignQuestionsListPage implements OnInit, OnDestroy {
       );
   }
 
-  onQuestionClick() {
+  onQuestionClick(id: string) {
+    this.dataService.setCurrentQuestionId(id);
     this.moveToFirst();
   }
 
   async moveToFirst() {
     const modal = await this.modalCtrl.create({
-      component: HomePage
+      component: SystemDesignAnswersListPage
     });
 
     return await modal.present();

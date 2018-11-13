@@ -1,3 +1,4 @@
+import { SystemDesignAnswersListPageModule } from './system-design-answers-list/system-design-answers-list.module';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { AuthService } from './services/auth.service';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -26,7 +27,8 @@ import { DataService } from './services/data.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AngularFireStorageModule // imports firebase/storage only needed for storage features,
+    AngularFireStorageModule, // imports firebase/storage only needed for storage features,
+    SystemDesignAnswersListPageModule
   ],
   providers: [
     StatusBar,

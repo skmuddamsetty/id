@@ -1,5 +1,5 @@
 export interface Category {
-  name: string;
+  category: string;
   icon: string;
   count: number;
 }

@@ -3,6 +3,22 @@
 </ion-header>
 
 <ion-content padding>
+  <form [formGroup]="myForm" (ngSubmit)="onPostAnswer()">
+    <ion-item>
+      <ion-label position="floating">Answer</ion-label>
+      <ion-textarea formControlName="answer"></ion-textarea>
+    </ion-item>
+    <ion-button
+      class="btn"
+      expand="full"
+      shape="round"
+      color="primary"
+      fill="solid"
+      (click)="onPostAnswer()"
+      [disabled]="!myForm.valid"
+      >Post Answer
+    </ion-button>
+  </form>
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -10,29 +26,16 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-card>
+  <ion-card *ngFor="let item of (_systemDesignAnswers | async)">
     <ion-item>
       <ion-icon name="pin" slot="start"></ion-icon>
-      <ion-label>ion-item in a card, icon left, button right</ion-label>
-      <ion-button fill="outline" slot="end">View</ion-button>
+      <ion-label>Answer</ion-label>
+      <ion-button fill="outline" slot="end"
+        ><ion-icon name="thumbs-up" slot="start"></ion-icon>Like</ion-button
+      >
     </ion-item>
 
-    <ion-card-content>
-      This is content, without any paragraph or header tags, within an
-      ion-card-content element.
-    </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-item>
-      <ion-icon name="pin" slot="start"></ion-icon>
-      <ion-label>ion-item in a card, icon left, button right</ion-label>
-      <ion-button fill="outline" slot="end">View</ion-button>
-    </ion-item>
-
-    <ion-card-content>
-      This is content, without any paragraph or header tags, within an
-      ion-card-content element.
-    </ion-card-content>
+    <ion-card-content> {{ item.answer }} </ion-card-content>
   </ion-card>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="closeModal()">

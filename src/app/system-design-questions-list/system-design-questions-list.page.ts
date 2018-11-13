@@ -60,7 +60,10 @@ export class SystemDesignQuestionsListPage implements OnInit, OnDestroy {
 
   getSystemDesignQuestionsList() {
     this.systemDesignQuestionsCollection = this.afs.collection<Question>(
-      'system-design-questions'
+      'system-design-questions',
+      ref => {
+        return ref.where('key', '==', this.selectedSystemDesignKey);
+      }
     );
     this._systemDesignQuestions = this.systemDesignQuestionsCollection
       .snapshotChanges()

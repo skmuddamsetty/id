@@ -1,3 +1,4 @@
+import { Answer } from './../models/answer.model';
 import { Question } from './../models/question.model';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
@@ -15,6 +16,7 @@ export class DataService {
     any
   > = new BehaviorSubject('');
   systemDesignQuestionsCollection: AngularFirestoreCollection<Question>;
+  systemDesignAnswersCollection: AngularFirestoreCollection<Answer>;
 
   constructor(private readonly afs: AngularFirestore) {}
 
@@ -55,6 +57,13 @@ export class DataService {
       'system-design-questions'
     );
     this.systemDesignQuestionsCollection.add(question);
+  }
+
+  insertAnswer(answer: Answer) {
+    this.systemDesignAnswersCollection = this.afs.collection(
+      'system-design-answers'
+    );
+    this.systemDesignAnswersCollection.add(answer);
   }
 
   deleteQuestion(uniqueId: string) {

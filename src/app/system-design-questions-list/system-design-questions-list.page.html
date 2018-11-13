@@ -34,9 +34,7 @@
 
   <ion-list class="nav-list">
     <ion-item-sliding *ngFor="let item of (_systemDesignQuestions | async)">
-      <ion-item (click)="onQuestionClick(item.id)">
-        {{ item.question }}
-      </ion-item>
+      <ion-item (click)="onQuestionClick(item)"> {{ item.question }} </ion-item>
       <ion-item-options *ngIf="this.currentuid === item.createUserId">
         <ion-button
           size="small"

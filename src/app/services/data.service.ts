@@ -11,6 +11,9 @@ export class DataService {
   private _messageSource: BehaviorSubject<any> = new BehaviorSubject('');
   private _systemDesignSource: BehaviorSubject<any> = new BehaviorSubject('');
   private _questionDesignSource: BehaviorSubject<any> = new BehaviorSubject('');
+  private _emptyQuestionDesignSource: BehaviorSubject<
+    any
+  > = new BehaviorSubject('');
   systemDesignQuestionsCollection: AngularFirestoreCollection<Question>;
 
   constructor(private readonly afs: AngularFirestore) {}
@@ -39,10 +42,29 @@ export class DataService {
     this._questionDesignSource.next(currentQuestionId);
   }
 
+  getCurrentQuestion() {
+    return this._emptyQuestionDesignSource.asObservable();
+  }
+
+  setCurrentQuestion(question: Question) {
+    this._emptyQuestionDesignSource.next(question);
+  }
+
   insertQuestion(question: Question) {
     this.systemDesignQuestionsCollection = this.afs.collection(
       'system-design-questions'
     );
     this.systemDesignQuestionsCollection.add(question);
+  }
+
+  deleteQuestion(uniqueId: string) {
+    console.log(uniqueId);
+    this.systemDesignQuestionsCollection = this.afs.collection(
+      'system-design-questions'
+    );
+    this.systemDesignQuestionsCollection
+      .doc(uniqueId)
+      .delete()
+      .then(() => {});
   }
 }

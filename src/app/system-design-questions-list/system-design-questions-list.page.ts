@@ -36,7 +36,9 @@ export class SystemDesignQuestionsListPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    this.currentuid = this.authService.getCurrentUser().uid;
+    if (this.authService.getCurrentUser() != null) {
+      this.currentuid = this.authService.getCurrentUser().uid;
+    }
     this.systemDesignObservable = this.dataService.getCurrentSystemDesign();
     this.systemDesignObservableSub = this.systemDesignObservable.subscribe(
       selectedCategory => {
@@ -73,8 +75,14 @@ export class SystemDesignQuestionsListPage implements OnInit, OnDestroy {
       );
   }
 
-  onQuestionClick(id: string) {
-    this.dataService.setCurrentQuestionId(id);
+  onQuestionClick(questionId: QuestionId) {
+    const currentQuestion: QuestionId = {
+      question: questionId.question,
+      key: questionId.key,
+      id: questionId.id,
+      createUserId: questionId.createUserId
+    };
+    this.dataService.setCurrentQuestion(currentQuestion);
     this.moveToFirst();
   }
 
@@ -103,5 +111,7 @@ export class SystemDesignQuestionsListPage implements OnInit, OnDestroy {
     this.router.navigate(['/system-design-interviews-list']);
   }
 
-  onDeleteQuestion(id: string) {}
+  onDeleteQuestion(id: string) {
+    this.dataService.deleteQuestion(id);
+  }
 }

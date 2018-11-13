@@ -2,7 +2,7 @@ import { ModalController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { DataService } from './../services/data.service';
 import { Subscription, Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './system-design-answers-list.page.html',
   styleUrls: ['./system-design-answers-list.page.scss']
 })
-export class SystemDesignAnswersListPage implements OnInit {
+export class SystemDesignAnswersListPage implements OnInit, OnDestroy {
   currentQuestionObservable: Observable<any>;
   currentQuestionObservableSub: Subscription;
   currentQuestionId = '';
@@ -22,15 +22,22 @@ export class SystemDesignAnswersListPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.currentQuestionObservable = this.dataService.getCurrentQuestionId();
+    this.currentQuestionObservable = this.dataService.getCurrentQuestion();
     this.currentQuestionObservableSub = this.currentQuestionObservable.subscribe(
-      selectedQuestionId => {
-        this.currentQuestionId = selectedQuestionId;
+      question => {
+        console.log(question);
+        this.currentQuestionId = question.id;
       }
     );
   }
 
   closeModal() {
     this.modalCtrl.dismiss();
+  }
+
+  ngOnDestroy() {
+    if (this.currentQuestionObservableSub) {
+      this.currentQuestionObservableSub.unsubscribe();
+    }
   }
 }

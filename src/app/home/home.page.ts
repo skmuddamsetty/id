@@ -38,8 +38,14 @@ export class HomePage {
     );
   }
 
-  onCategorySelect(id: string) {
-    this.dataService.setCurrentCategory(id);
-    this.router.navigate(['/system-designs-list']);
+  onCategorySelect(key: string) {
+    this.dataService.setCurrentCategory(key);
+    if (key === 'interviewexperience') {
+      this.router.navigate(['/interview-experiences-list']);
+    } else if (key === 'postinterviewexperience') {
+      this.router.navigate(['/post-interview-experience']);
+    } else {
+      this.router.navigate(['/system-designs-list']);
+    }
   }
 }

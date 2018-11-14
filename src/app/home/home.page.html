@@ -11,7 +11,7 @@
   <ion-list class="nav-list">
     <ion-item
       *ngFor="let item of (categories | async)"
-      (click)="onCategorySelect(item.category)"
+      (click)="onCategorySelect(item.key)"
     >
       <ion-icon [name]="item.icon" slot="start"></ion-icon>
       {{ item.category }}

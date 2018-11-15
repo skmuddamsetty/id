@@ -1,3 +1,4 @@
+import { Conversations } from './../models/conversations.model';
 import { Answer } from './../models/answer.model';
 import { Question } from './../models/question.model';
 import { Injectable } from '@angular/core';
@@ -17,6 +18,9 @@ export class DataService {
   > = new BehaviorSubject('');
   systemDesignQuestionsCollection: AngularFirestoreCollection<Question>;
   systemDesignAnswersCollection: AngularFirestoreCollection<Answer>;
+  interviewExpConversationsCollection: AngularFirestoreCollection<
+    Conversations
+  >;
 
   constructor(private readonly afs: AngularFirestore) {}
 
@@ -75,5 +79,12 @@ export class DataService {
       .doc(uniqueId)
       .delete()
       .then(() => {});
+  }
+
+  insertConversation(convesations: Conversations) {
+    this.interviewExpConversationsCollection = this.afs.collection(
+      'interview-experiences'
+    );
+    this.interviewExpConversationsCollection.add(convesations);
   }
 }

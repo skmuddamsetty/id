@@ -8,6 +8,62 @@
 </ion-header>
 
 <ion-content padding>
+  <form [formGroup]="myForm" (ngSubmit)="onAdd()">
+    <ion-item>
+      <ion-label position="floating">Question</ion-label>
+      <ion-textarea formControlName="question"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Answer</ion-label>
+      <ion-textarea formControlName="answer"></ion-textarea>
+    </ion-item>
+    <ion-button
+      class="btn"
+      expand="full"
+      shape="round"
+      color="primary"
+      fill="solid"
+      (click)="onAdd()"
+      [disabled]="!myForm.valid"
+      >Add
+    </ion-button>
+
+    <ion-button
+      class="btn"
+      expand="full"
+      shape="round"
+      color="primary"
+      fill="solid"
+      (click)="onSubmit()"
+      >Submit
+    </ion-button>
+    <ion-card *ngFor="let item of conversationsArray">
+      <ion-item class="activated">
+        <ion-label>{{ item.question }}</ion-label>
+      </ion-item>
+
+      <ion-card-content> {{ item.answer }} </ion-card-content>
+    </ion-card>
+    <!--
+      <ion-list formArrayName="conversations">
+        <ion-item-sliding
+          *ngFor="let s of myForm.get('conversations'); let i = index"
+        >
+          <ion-item>
+            <ion-label floating color="primary">conv {{ i + 1 }}</ion-label>
+            <ion-input type="text" formControlName="{{i}}"></ion-input>
+          </ion-item>
+        </ion-item-sliding>
+      </ion-list>
+    -->
+  </form>
+  <!--
+    <div *ngFor="let item of (categories | async)">
+      <div *ngFor="let qa of item.questionsandanswers">
+        {{ qa.question }}{{ qa.answer }}
+      </div>
+    </div>
+  -->
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="goBack()">
       <ion-icon name="arrow-dropleft"></ion-icon>

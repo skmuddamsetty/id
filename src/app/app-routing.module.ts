@@ -23,7 +23,8 @@ const routes: Routes = [
   { path: 'system-design-answers-list', loadChildren: './system-design-answers-list/system-design-answers-list.module#SystemDesignAnswersListPageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'interview-experiences-list', loadChildren: './interview-experiences-list/interview-experiences-list.module#InterviewExperiencesListPageModule' },
-  { path: 'post-interview-experience', loadChildren: './post-interview-experience/post-interview-experience.module#PostInterviewExperiencePageModule' }
+  { path: 'post-interview-experience', loadChildren: './post-interview-experience/post-interview-experience.module#PostInterviewExperiencePageModule' },
+  { path: 'create-interview', loadChildren: './create-interview/create-interview.module#CreateInterviewPageModule' }
 ];
 
 @NgModule({

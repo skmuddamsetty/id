@@ -1,3 +1,4 @@
+import { Interview } from './../models/interview.model';
 import { Conversations } from './../models/conversations.model';
 import { Answer } from './../models/answer.model';
 import { Question } from './../models/question.model';
@@ -21,6 +22,8 @@ export class DataService {
   interviewExpConversationsCollection: AngularFirestoreCollection<
     Conversations
   >;
+  interviewsCollection: AngularFirestoreCollection<Interview>;
+  private _interviewId: BehaviorSubject<any> = new BehaviorSubject('');
 
   constructor(private readonly afs: AngularFirestore) {}
 
@@ -30,6 +33,14 @@ export class DataService {
 
   setCurrentCategory(currentCategoryId: string) {
     this._messageSource.next(currentCategoryId);
+  }
+
+  getInterviewId() {
+    return this._interviewId.asObservable();
+  }
+
+  setInterviewId(currentInterviewId: string) {
+    this._interviewId.next(currentInterviewId);
   }
 
   getCurrentSystemDesign() {
@@ -83,8 +94,13 @@ export class DataService {
 
   insertConversation(convesations: Conversations) {
     this.interviewExpConversationsCollection = this.afs.collection(
-      'interview-experiences'
+      'interview-conversations'
     );
     this.interviewExpConversationsCollection.add(convesations);
+  }
+
+  insertInterview(interview: Interview) {
+    this.interviewsCollection = this.afs.collection('interviews');
+    this.interviewsCollection.add(interview).then(res => console.log(res.id));
   }
 }

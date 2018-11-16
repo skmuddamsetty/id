@@ -26,6 +26,7 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
   conversations: Conversations;
   conversationsArray: Conversation[] = [];
   conversationsSubscription: Subscription;
+  currentInterviewId = '';
   constructor(
     private readonly afs: AngularFirestore,
     public router: Router,
@@ -34,8 +35,14 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
+    this.dataService.getInterviewId().subscribe(res => {
+      this.currentInterviewId = res;
+    });
     this.conversationsCollection = this.afs.collection<Conversations>(
-      'interview-experiences'
+      'interview-conversations',
+      ref => {
+        return ref.where('interviewId', '==', this.currentInterviewId);
+      }
     );
     this._conversations = this.conversationsCollection.snapshotChanges().pipe(
       map(actions =>
@@ -49,37 +56,11 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
     this.conversationsSubscription = this._conversations.subscribe(res => {
       this.conversationsArray = [];
       res.map(conversation => {
-        console.log(conversation.conversations);
         conversation.conversations.forEach(intent => {
           this.conversationsArray.push(intent);
         });
       });
     });
-    // const qa: QA = {
-    //   questionsandanswers: [
-    //     {
-    //       question: 'Testing',
-    //       answer: 'does this work?'
-    //     },
-    //     {
-    //       question: 'Testing',
-    //       answer: 'does this work?'
-    //     },
-    //     {
-    //       question: 'Testing',
-    //       answer: 'does this work?'
-    //     },
-    //     {
-    //       question: 'Testing',
-    //       answer: 'does this work?'
-    //     },
-    //     {
-    //       question: 'Testing',
-    //       answer: 'does this work?'
-    //     }
-    //   ]
-    // };
-    // this.dataService.insertInterviewExpQA(qa);
   }
 
   goBack() {
@@ -106,7 +87,8 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
 
   onSubmit() {
     const cons: Conversations = {
-      conversations: this.conversationsArray
+      conversations: this.conversationsArray,
+      interviewId: this.currentInterviewId
     };
     this.dataService.insertConversation(cons);
     this.conversationsArray = [];

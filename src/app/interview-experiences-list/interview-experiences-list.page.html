@@ -8,6 +8,11 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-list class="nav-list">
+    <ion-item *ngFor="let item of (_interviews | async)">
+      {{ item.title }} at {{ item.company }}
+    </ion-item>
+  </ion-list>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="goBack()">
       <ion-icon name="arrow-dropleft"></ion-icon>

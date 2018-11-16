@@ -43,7 +43,7 @@ export class HomePage {
     if (key === 'interviewexperience') {
       this.router.navigate(['/interview-experiences-list']);
     } else if (key === 'postinterviewexperience') {
-      this.router.navigate(['/post-interview-experience']);
+      this.router.navigate(['/create-interview']);
     } else {
       this.router.navigate(['/system-designs-list']);
     }

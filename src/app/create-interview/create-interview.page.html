@@ -17,6 +17,48 @@
       <ion-label position="floating">Company</ion-label>
       <ion-input formControlName="company"></ion-input>
     </ion-item>
+    <form #f="ngForm" (ngSubmit)="onAddTechnology(f)">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="9">
+            <ion-item>
+              <ion-item>
+                <ion-label position="floating">Technology</ion-label>
+                <ion-input ngModel required name="technology"></ion-input>
+              </ion-item>
+            </ion-item>
+          </ion-col>
+          <ion-col col-auto>
+            <ion-button
+              class="btn"
+              expand="block"
+              shape="round"
+              color="primary"
+              fill="outline"
+              size="small"
+              type="submit"
+              [disabled]="!f.valid"
+              >Add</ion-button
+            >
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+    <ion-list formArrayName="technologies">
+      <ion-item-sliding
+        *ngFor="let s of myForm.get('technologies').controls; let i = index"
+      >
+        <ion-item>
+          <ion-label floating color="primary">Technology {{ i + 1 }}</ion-label>
+          <ion-input type="text" formControlName="{{i}}"></ion-input>
+        </ion-item>
+        <ion-item-options>
+          <button ion-button color="danger" (click)="onDeleteTechnology(i)">
+            <ion-icon name="trash"></ion-icon>Delete
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
     <ion-button
       class="btn"
       expand="full"

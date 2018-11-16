@@ -7,6 +7,7 @@ import { Interview, InterviewId } from './../models/interview.model';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-interview-experiences-list',
@@ -16,7 +17,11 @@ import { map } from 'rxjs/operators';
 export class InterviewExperiencesListPage implements OnInit {
   private interviewsCollection: AngularFirestoreCollection<Interview>;
   _interviews: Observable<InterviewId[]>;
-  constructor(public router: Router, private readonly afs: AngularFirestore) {}
+  constructor(
+    public router: Router,
+    private readonly afs: AngularFirestore,
+    public dataService: DataService
+  ) {}
 
   ngOnInit() {
     this.interviewsCollection = this.afs.collection<Interview>('interviews');
@@ -29,6 +34,11 @@ export class InterviewExperiencesListPage implements OnInit {
         })
       )
     );
+  }
+
+  onInterviewClick(interview: InterviewId) {
+    this.dataService.setInterviewId(interview);
+    this.router.navigate(['/post-interview-experience']);
   }
 
   goBack() {

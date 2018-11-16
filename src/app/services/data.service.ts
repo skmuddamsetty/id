@@ -1,4 +1,4 @@
-import { Interview } from './../models/interview.model';
+import { Interview, InterviewId } from './../models/interview.model';
 import { Conversations } from './../models/conversations.model';
 import { Answer } from './../models/answer.model';
 import { Question } from './../models/question.model';
@@ -39,8 +39,8 @@ export class DataService {
     return this._interviewId.asObservable();
   }
 
-  setInterviewId(currentInterviewId: string) {
-    this._interviewId.next(currentInterviewId);
+  setInterviewId(interview: InterviewId) {
+    this._interviewId.next(interview);
   }
 
   getCurrentSystemDesign() {

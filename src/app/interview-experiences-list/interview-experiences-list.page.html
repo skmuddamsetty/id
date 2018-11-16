@@ -9,7 +9,10 @@
 
 <ion-content padding>
   <ion-list class="nav-list">
-    <ion-item *ngFor="let item of (_interviews | async)">
+    <ion-item
+      *ngFor="let item of (_interviews | async)"
+      (click)="onInterviewClick(item)"
+    >
       {{ item.title }} at {{ item.company }}
     </ion-item>
   </ion-list>

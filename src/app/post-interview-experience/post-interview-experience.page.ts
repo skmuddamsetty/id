@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import {
   Conversations,
   ConversationsId
@@ -27,16 +28,23 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
   conversationsArray: Conversation[] = [];
   conversationsSubscription: Subscription;
   currentInterviewId = '';
+  currentuid = '';
+  createUserId = '';
   constructor(
     private readonly afs: AngularFirestore,
     public router: Router,
-    public dataService: DataService
+    public dataService: DataService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.initForm();
+    if (this.authService.getCurrentUser() != null) {
+      this.currentuid = this.authService.getCurrentUser().uid;
+    }
     this.dataService.getInterviewId().subscribe(res => {
-      this.currentInterviewId = res;
+      this.currentInterviewId = res.id;
+      this.createUserId = res.createUserId;
     });
     this.conversationsCollection = this.afs.collection<Conversations>(
       'interview-conversations',

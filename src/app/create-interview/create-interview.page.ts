@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { AuthService } from './../services/auth.service';
-import { Interview } from './../models/interview.model';
+import { Interview, InterviewId } from './../models/interview.model';
 import { DataService } from './../services/data.service';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -44,7 +44,13 @@ export class CreateInterviewPage implements OnInit {
   insertInterview(interview: Interview) {
     this.interviewsCollection = this.afs.collection('interviews');
     this.interviewsCollection.add(interview).then(res => {
-      this.dataService.setInterviewId(res.id);
+      const interviewId: InterviewId = {
+        createUserId: this.currentuid,
+        id: res.id,
+        title: '',
+        company: ''
+      };
+      this.dataService.setInterviewId(interviewId);
       this.router.navigate(['/post-interview-experience']);
     });
   }

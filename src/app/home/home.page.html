@@ -15,7 +15,12 @@
     >
       <ion-icon [name]="item.icon" slot="start"></ion-icon>
       {{ item.category }}
-      <ion-badge color="primary" slot="end">{{ item.count }}</ion-badge>
+      <ion-badge
+        color="primary"
+        slot="end"
+        *ngIf="item.key !== 'postinterviewexperience'"
+        >{{ item.count }}</ion-badge
+      >
     </ion-item>
   </ion-list>
 </ion-content>

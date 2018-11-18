@@ -1,3 +1,5 @@
+import { Observable, Subscription } from 'rxjs';
+import { Category, CategoryId } from './../models/category.model';
 import { Router } from '@angular/router';
 import { AuthService } from './../services/auth.service';
 import { Interview, InterviewId } from './../models/interview.model';
@@ -9,22 +11,28 @@ import {
   FormArray,
   NgForm
 } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-interview',
   templateUrl: './create-interview.page.html',
   styleUrls: ['./create-interview.page.scss']
 })
-export class CreateInterviewPage implements OnInit {
+export class CreateInterviewPage implements OnInit, OnDestroy {
   myForm: FormGroup;
   currentuid = '';
   interviewsCollection: AngularFirestoreCollection<Interview>;
   technologiesForm: FormGroup;
+  private categoriesCollection: AngularFirestoreCollection<Category>;
+  _categories: Observable<CategoryId[]>;
+  categoriesSubscription: Subscription;
+  interviewsCount = 0;
+  categoryId = '';
   constructor(
     private dataService: DataService,
     private authService: AuthService,
@@ -37,6 +45,28 @@ export class CreateInterviewPage implements OnInit {
     if (this.authService.getCurrentUser() != null) {
       this.currentuid = this.authService.getCurrentUser().uid;
     }
+    this.categoriesCollection = this.afs.collection<Category>(
+      'categories',
+      ref => {
+        return ref.where('key', '==', 'interviewexperience');
+      }
+    );
+    this._categories = this.categoriesCollection.snapshotChanges().pipe(
+      map(actions =>
+        actions.map(a => {
+          const data = a.payload.doc.data() as Category;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        })
+      )
+    );
+    this.categoriesSubscription = this._categories.subscribe(res => {
+      res.map(category => {
+        this.interviewsCount = category.count;
+        this.categoryId = category.id;
+      });
+    });
+    this.interviewsCollection = this.afs.collection('interviews');
   }
 
   onProceed() {
@@ -58,6 +88,11 @@ export class CreateInterviewPage implements OnInit {
         title: '',
         company: ''
       };
+      this.interviewsCount = this.interviewsCount + 1;
+      this.dataService.updateInterviewCount(
+        this.categoryId,
+        this.interviewsCount
+      );
       this.dataService.setInterviewId(interviewId);
       this.router.navigate(['/post-interview-experience']);
     });
@@ -83,5 +118,11 @@ export class CreateInterviewPage implements OnInit {
 
   onDeleteTechnology(index: number) {
     (<FormArray>this.myForm.get('technologies')).removeAt(index);
+  }
+
+  ngOnDestroy() {
+    if (this.categoriesSubscription) {
+      this.categoriesSubscription.unsubscribe();
+    }
   }
 }

@@ -1,3 +1,4 @@
+import { Category } from './../models/category.model';
 import { Interview, InterviewId } from './../models/interview.model';
 import { Conversations } from './../models/conversations.model';
 import { Answer } from './../models/answer.model';
@@ -6,12 +7,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {
   AngularFirestore,
-  AngularFirestoreCollection
+  AngularFirestoreCollection,
+  AngularFirestoreDocument
 } from '@angular/fire/firestore';
 
 @Injectable()
 export class DataService {
   private _messageSource: BehaviorSubject<any> = new BehaviorSubject('');
+  private _currentInterviewKey: BehaviorSubject<any> = new BehaviorSubject('');
   private _systemDesignSource: BehaviorSubject<any> = new BehaviorSubject('');
   private _questionDesignSource: BehaviorSubject<any> = new BehaviorSubject('');
   private _emptyQuestionDesignSource: BehaviorSubject<
@@ -24,6 +27,7 @@ export class DataService {
   >;
   interviewsCollection: AngularFirestoreCollection<Interview>;
   private _interviewId: BehaviorSubject<any> = new BehaviorSubject('');
+  private categoryDoc: AngularFirestoreDocument<Category>;
 
   constructor(private readonly afs: AngularFirestore) {}
 
@@ -33,6 +37,14 @@ export class DataService {
 
   setCurrentCategory(currentCategoryId: string) {
     this._messageSource.next(currentCategoryId);
+  }
+
+  getCurrentInterviewKey() {
+    return this._currentInterviewKey.asObservable();
+  }
+
+  setCurrentInterviewKey(currentInterviewKey: string) {
+    this._currentInterviewKey.next(currentInterviewKey);
   }
 
   getInterviewId() {
@@ -102,5 +114,12 @@ export class DataService {
   insertInterview(interview: Interview) {
     this.interviewsCollection = this.afs.collection('interviews');
     this.interviewsCollection.add(interview).then(res => console.log(res.id));
+  }
+
+  updateInterviewCount(id: string, count: number) {
+    this.categoryDoc = this.afs.doc<Category>('categories/' + id);
+    this.categoryDoc.update({
+      count: count
+    });
   }
 }

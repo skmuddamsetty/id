@@ -40,7 +40,18 @@ export class HomePage {
 
   onCategorySelect(key: string) {
     this.dataService.setCurrentCategory(key);
-    if (key === 'interviewexperience') {
+    if (
+      key === 'interviewexperience' ||
+      key === 'javainterviews' ||
+      key === 'angularinterviews'
+    ) {
+      if (key === 'javainterviews') {
+        this.dataService.setCurrentInterviewKey('java');
+      } else if (key === 'angularinterviews') {
+        this.dataService.setCurrentInterviewKey('angular');
+      } else {
+        this.dataService.setCurrentInterviewKey('');
+      }
       this.router.navigate(['/interview-experiences-list']);
     } else if (key === 'postinterviewexperience') {
       this.router.navigate(['/create-interview']);

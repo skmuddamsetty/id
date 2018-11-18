@@ -8,14 +8,20 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list class="nav-list">
-    <ion-item
-      *ngFor="let item of (_interviews | async)"
-      (click)="onInterviewClick(item)"
-    >
-      {{ item.title }} at {{ item.company }}
+  <ion-card *ngFor="let item of (_interviews | async)">
+    <ion-item class="activated">
+      <ion-icon name="person" slot="start"></ion-icon>
+      <ion-label>{{ item.title }}</ion-label>
+      <!--
+        <ion-button fill="outline" slot="end"
+          ><ion-icon name="thumbs-up" slot="start"></ion-icon>Like</ion-button
+        >
+        <div>{{'1'}} Likes</div>
+      -->
     </ion-item>
-  </ion-list>
+
+    <ion-card-content> </ion-card-content>
+  </ion-card>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="goBack()">
       <ion-icon name="arrow-dropleft"></ion-icon>

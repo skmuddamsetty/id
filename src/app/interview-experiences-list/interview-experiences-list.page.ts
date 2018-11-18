@@ -17,6 +17,7 @@ import { DataService } from '../services/data.service';
 export class InterviewExperiencesListPage implements OnInit {
   private interviewsCollection: AngularFirestoreCollection<Interview>;
   _interviews: Observable<InterviewId[]>;
+  currentInterviewKey = '';
   constructor(
     public router: Router,
     private readonly afs: AngularFirestore,
@@ -24,16 +25,41 @@ export class InterviewExperiencesListPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.interviewsCollection = this.afs.collection<Interview>('interviews');
-    this._interviews = this.interviewsCollection.snapshotChanges().pipe(
-      map(actions =>
-        actions.map(a => {
-          const data = a.payload.doc.data() as Interview;
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        })
-      )
-    );
+    this.dataService.getCurrentInterviewKey().subscribe(currentInterviewKey => {
+      this.currentInterviewKey = currentInterviewKey;
+    });
+    if (this.currentInterviewKey) {
+      this.interviewsCollection = this.afs.collection<Interview>(
+        'interviews',
+        ref => {
+          return ref.where(
+            'technologies',
+            'array-contains',
+            this.currentInterviewKey
+          );
+        }
+      );
+      this._interviews = this.interviewsCollection.snapshotChanges().pipe(
+        map(actions =>
+          actions.map(a => {
+            const data = a.payload.doc.data() as Interview;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
+    } else {
+      this.interviewsCollection = this.afs.collection<Interview>('interviews');
+      this._interviews = this.interviewsCollection.snapshotChanges().pipe(
+        map(actions =>
+          actions.map(a => {
+            const data = a.payload.doc.data() as Interview;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
+    }
   }
 
   onInterviewClick(interview: InterviewId) {

@@ -17,6 +17,7 @@ import {
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-create-interview',
@@ -70,11 +71,13 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
   }
 
   onProceed() {
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
     const interview: Interview = {
       title: this.myForm.value.title,
       company: this.myForm.value.company,
       createUserId: this.currentuid,
-      technologies: this.myForm.value.technologies
+      technologies: this.myForm.value.technologies,
+      createDate: timestamp
     };
     this.insertInterview(interview);
   }

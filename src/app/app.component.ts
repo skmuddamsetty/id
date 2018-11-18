@@ -6,6 +6,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-root',
@@ -45,6 +46,8 @@ export class AppComponent {
     public router: Router,
     private googlePlus: GooglePlus
   ) {
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    console.log('timestamp', timestamp);
     this.afAuth.auth.onAuthStateChanged(user => {
       if (user) {
         console.log('inside app component');

@@ -10,6 +10,7 @@ import {
   AngularFirestoreCollection,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class DataService {
@@ -117,9 +118,11 @@ export class DataService {
   }
 
   updateInterviewCount(id: string, count: number) {
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
     this.categoryDoc = this.afs.doc<Category>('categories/' + id);
     this.categoryDoc.update({
-      count: count
+      count: count,
+      updateDate: timestamp
     });
   }
 }

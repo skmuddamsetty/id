@@ -14,6 +14,7 @@ import { DataService } from './../services/data.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-post-interview-experience',
@@ -96,7 +97,8 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
   onSubmit() {
     const cons: Conversations = {
       conversations: this.conversationsArray,
-      interviewId: this.currentInterviewId
+      interviewId: this.currentInterviewId,
+      updateDate: firebase.firestore.FieldValue.serverTimestamp()
     };
     this.dataService.insertConversation(cons);
     this.conversationsArray = [];

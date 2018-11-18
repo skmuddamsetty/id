@@ -1,3 +1,4 @@
+import { FilterInterviews } from './../models/filter-interviews.model';
 import {
   AngularFirestore,
   AngularFirestoreCollection
@@ -39,6 +40,13 @@ export class HomePage {
   }
 
   onCategorySelect(key: string) {
+    const filterInterviews: FilterInterviews = {
+      delete: false,
+      edit: false,
+      createUserId: '',
+      interviewId: '',
+      technology: ''
+    };
     this.dataService.setCurrentCategory(key);
     if (
       key === 'interviewexperience' ||
@@ -46,12 +54,11 @@ export class HomePage {
       key === 'angularinterviews'
     ) {
       if (key === 'javainterviews') {
-        this.dataService.setCurrentInterviewKey('java');
+        filterInterviews.technology = 'java';
       } else if (key === 'angularinterviews') {
-        this.dataService.setCurrentInterviewKey('angular');
-      } else {
-        this.dataService.setCurrentInterviewKey('');
+        filterInterviews.technology = 'angular';
       }
+      this.dataService.setFilterInterviews(filterInterviews);
       this.router.navigate(['/interview-experiences-list']);
     } else if (key === 'postinterviewexperience') {
       this.router.navigate(['/create-interview']);

@@ -1,3 +1,4 @@
+import { FilterInterviews } from './../models/filter-interviews.model';
 import { Category } from './../models/category.model';
 import { Interview, InterviewId } from './../models/interview.model';
 import { Conversations } from './../models/conversations.model';
@@ -29,8 +30,26 @@ export class DataService {
   interviewsCollection: AngularFirestoreCollection<Interview>;
   private _interviewId: BehaviorSubject<any> = new BehaviorSubject('');
   private categoryDoc: AngularFirestoreDocument<Category>;
+  emptyFilterFoInterview: FilterInterviews = {
+    delete: false,
+    edit: false,
+    createUserId: '',
+    interviewId: '',
+    technology: ''
+  };
+  private _filterInterviewsObservable: BehaviorSubject<
+    FilterInterviews
+  > = new BehaviorSubject(this.emptyFilterFoInterview);
 
   constructor(private readonly afs: AngularFirestore) {}
+
+  getFilterInterviews() {
+    return this._filterInterviewsObservable.asObservable();
+  }
+
+  setFilterInterviews(interviewsFilter: FilterInterviews) {
+    this._filterInterviewsObservable.next(interviewsFilter);
+  }
 
   getCurrentCategory() {
     return this._messageSource.asObservable();

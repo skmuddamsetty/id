@@ -22,6 +22,7 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
   _interviewFiltersSubscription: Subscription;
   currentInterviewKey = '';
   interviewFiltersObj: FilterInterviews;
+  noInterviews = true;
   constructor(
     public router: Router,
     private readonly afs: AngularFirestore,
@@ -33,44 +34,47 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
     this._interviewFiltersSubscription = this._interviewFiltersObServable.subscribe(
       interviewFilters => {
         this.interviewFiltersObj = interviewFilters;
+        if (this.interviewFiltersObj && this.interviewFiltersObj.createUserId) {
+          this.interviewsCollection = this.afs.collection<Interview>(
+            'interviews',
+            ref => {
+              return ref.where(
+                'createUserId',
+                '==',
+                this.interviewFiltersObj.createUserId
+              );
+            }
+          );
+        } else if (
+          this.interviewFiltersObj &&
+          this.interviewFiltersObj.technology
+        ) {
+          this.interviewsCollection = this.afs.collection<Interview>(
+            'interviews',
+            ref => {
+              return ref.where(
+                'technologies',
+                'array-contains',
+                this.interviewFiltersObj.technology
+              );
+            }
+          );
+        } else {
+          this.interviewsCollection = this.afs.collection<Interview>(
+            'interviews'
+          );
+        }
+        this._interviews = this.interviewsCollection.snapshotChanges().pipe(
+          map(actions =>
+            actions.map(a => {
+              this.noInterviews = false;
+              const data = a.payload.doc.data() as Interview;
+              const id = a.payload.doc.id;
+              return { id, ...data };
+            })
+          )
+        );
       }
-    );
-    if (this.interviewFiltersObj && this.interviewFiltersObj.createUserId) {
-      this.interviewsCollection = this.afs.collection<Interview>(
-        'interviews',
-        ref => {
-          return ref.where(
-            'createUserId',
-            '==',
-            this.interviewFiltersObj.createUserId
-          );
-        }
-      );
-    } else if (
-      this.interviewFiltersObj &&
-      this.interviewFiltersObj.technology
-    ) {
-      this.interviewsCollection = this.afs.collection<Interview>(
-        'interviews',
-        ref => {
-          return ref.where(
-            'technologies',
-            'array-contains',
-            this.interviewFiltersObj.technology
-          );
-        }
-      );
-    } else {
-      this.interviewsCollection = this.afs.collection<Interview>('interviews');
-    }
-    this._interviews = this.interviewsCollection.snapshotChanges().pipe(
-      map(actions =>
-        actions.map(a => {
-          const data = a.payload.doc.data() as Interview;
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        })
-      )
     );
   }
 

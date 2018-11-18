@@ -8,6 +8,18 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-grid *ngIf="this.noInterviews">
+    <ion-row>
+      <ion-col>
+        <div text-center>
+          <h3>
+            There are no available Interviews. Please give it a try after
+            sometime.
+          </h3>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-card *ngFor="let item of (_interviews | async)">
     <ion-item class="activated">
       <ion-icon name="person" slot="start"></ion-icon>

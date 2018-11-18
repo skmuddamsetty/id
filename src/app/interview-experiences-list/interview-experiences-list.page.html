@@ -23,7 +23,9 @@
   <ion-card *ngFor="let item of (_interviews | async)">
     <ion-item class="activated">
       <ion-icon name="person" slot="start"></ion-icon>
-      <ion-label>{{ item.title }}</ion-label>
+      <ion-label
+        ><div class="interview-title">{{ item.title }}</div></ion-label
+      >
       <!--
         <ion-button fill="outline" slot="end"
           ><ion-icon name="thumbs-up" slot="start"></ion-icon>Like</ion-button
@@ -32,7 +34,18 @@
       -->
     </ion-item>
 
-    <ion-card-content> </ion-card-content>
+    <ion-card-content>
+      <div class="card-body">
+        <div class="card-subtitle">Client</div>
+        <div class="card-text">{{ item.company }}</div>
+        <div class="card-subtitle">Technologies</div>
+        <div class="card-text-tech-ul">
+          <div class="card-text-tech-li" *ngFor="let tech of item.technologies">
+            {{ tech }}
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
   </ion-card>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="goBack()">

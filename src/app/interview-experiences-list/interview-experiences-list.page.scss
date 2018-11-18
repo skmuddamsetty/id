@@ -1,2 +1,19 @@
-.text {
+.card-subtitle {
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+.card-text {
+  text-transform: capitalize;
+  font-size: 1rem;
+  font-weight: bold;
+  border-bottom: 1px solid #f4f2f2;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.card-text-tech-li {
+  text-transform: capitalize;
+  font-weight: bold;
+}
+.interview-title {
+  text-transform: capitalize;
 }

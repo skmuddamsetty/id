@@ -1,9 +1,74 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>view-interview</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> View Interview </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-card *ngIf="this.interview && this.interview.id">
+    <ion-item class="activated">
+      <ion-icon name="person" slot="start"></ion-icon>
+      <ion-label
+        ><div class="interview-title">{{ interview.title }}</div></ion-label
+      >
+    </ion-item>
+    <ion-card-content>
+      <div class="card-body">
+        <div class="card-body__box">
+          <div class="card-subtitle">Client</div>
+          <div class="card-text">{{ interview.company }}</div>
+        </div>
+        <div class="card-body__box">
+          <div class="card-subtitle">Location</div>
+          <div class="card-text">{{ interview.location }}</div>
+        </div>
+        <div class="card-body__box">
+          <div class="card-subtitle">Role</div>
+          <div class="card-text">{{ interview.role }}</div>
+        </div>
+        <div class="card-body__box">
+          <div class="card-subtitle">Technologies</div>
+          <div class="card-text-tech-ul">
+            <div
+              class="card-text-tech-li"
+              *ngFor="let tech of interview.technologies"
+            >
+              {{ tech }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-grid *ngIf="this.noConversations">
+    <ion-row>
+      <ion-col>
+        <div text-center>
+          <h3>
+            There are no available responses on this Interview. Please give it a
+            try after sometime.
+          </h3>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div *ngFor="let item of (_conversations | async)">
+    <ion-card *ngFor="let conversation of item.conversations">
+      <ion-item class="activated">
+        <ion-label
+          ><span text-wrap>{{ conversation.question }}</span></ion-label
+        >
+      </ion-item>
 
+      <ion-card-content> {{ conversation.answer }} </ion-card-content>
+    </ion-card>
+  </div>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="goBack()">
+      <ion-icon name="arrow-dropleft"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

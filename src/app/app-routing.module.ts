@@ -24,7 +24,8 @@ const routes: Routes = [
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'interview-experiences-list', loadChildren: './interview-experiences-list/interview-experiences-list.module#InterviewExperiencesListPageModule' },
   { path: 'post-interview-experience', loadChildren: './post-interview-experience/post-interview-experience.module#PostInterviewExperiencePageModule' },
-  { path: 'create-interview', loadChildren: './create-interview/create-interview.module#CreateInterviewPageModule' }
+  { path: 'create-interview', loadChildren: './create-interview/create-interview.module#CreateInterviewPageModule' },
+  { path: 'view-interview', loadChildren: './view-interview/view-interview.module#ViewInterviewPageModule' }
 ];
 
 @NgModule({

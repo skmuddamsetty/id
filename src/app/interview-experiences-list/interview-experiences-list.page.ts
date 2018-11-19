@@ -78,9 +78,9 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
     );
   }
 
-  onInterviewClick(interview: InterviewId) {
+  onViewInterview(interview: InterviewId) {
     this.dataService.setInterviewId(interview);
-    this.router.navigate(['/post-interview-experience']);
+    this.router.navigate(['/view-interview']);
   }
 
   goBack() {

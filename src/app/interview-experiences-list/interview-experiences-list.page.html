@@ -26,6 +26,9 @@
       <ion-label
         ><div class="interview-title">{{ item.title }}</div></ion-label
       >
+      <ion-button fill="outline" slot="end" (click)="onViewInterview(item.id)"
+        >View</ion-button
+      >
       <!--
         <ion-button fill="outline" slot="end"
           ><ion-icon name="thumbs-up" slot="start"></ion-icon>Like</ion-button
@@ -36,12 +39,27 @@
 
     <ion-card-content>
       <div class="card-body">
-        <div class="card-subtitle">Client</div>
-        <div class="card-text">{{ item.company }}</div>
-        <div class="card-subtitle">Technologies</div>
-        <div class="card-text-tech-ul">
-          <div class="card-text-tech-li" *ngFor="let tech of item.technologies">
-            {{ tech }}
+        <div class="card-body__box">
+          <div class="card-subtitle">Client</div>
+          <div class="card-text">{{ item.company }}</div>
+        </div>
+        <div class="card-body__box">
+          <div class="card-subtitle">Location</div>
+          <div class="card-text">{{ item.location }}</div>
+        </div>
+        <div class="card-body__box">
+          <div class="card-subtitle">Role</div>
+          <div class="card-text">{{ item.role }}</div>
+        </div>
+        <div class="card-body__box">
+          <div class="card-subtitle">Technologies</div>
+          <div class="card-text-tech-ul">
+            <div
+              class="card-text-tech-li"
+              *ngFor="let tech of item.technologies"
+            >
+              {{ tech }}
+            </div>
           </div>
         </div>
       </div>

@@ -77,7 +77,9 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
       company: this.myForm.value.company,
       createUserId: this.currentuid,
       technologies: this.myForm.value.technologies,
-      createDate: timestamp
+      createDate: timestamp,
+      location: this.myForm.value.location,
+      role: this.myForm.value.role
     };
     this.insertInterview(interview);
   }
@@ -108,7 +110,9 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     this.myForm = new FormGroup({
       title: new FormControl(title, Validators.required),
       company: new FormControl(company, Validators.required),
-      technologies: new FormArray(technologies, Validators.required)
+      technologies: new FormArray(technologies, Validators.required),
+      location: new FormControl(null, Validators.required),
+      role: new FormControl(null, Validators.required)
     });
   }
 

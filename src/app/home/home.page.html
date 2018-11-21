@@ -9,18 +9,20 @@
 
 <ion-content padding>
   <ion-list class="nav-list">
-    <ion-item
+    <div
       *ngFor="let item of (categories | async)"
       (click)="onCategorySelect(item.key)"
     >
-      <ion-icon [name]="item.icon" slot="start"></ion-icon>
-      {{ item.category }}
-      <ion-badge
-        color="primary"
-        slot="end"
-        *ngIf="item.key !== 'postinterviewexperience'"
-        >{{ item.count }}</ion-badge
-      >
-    </ion-item>
+      <ion-item *ngIf="item.turnOn">
+        <ion-icon [name]="item.icon" slot="start"></ion-icon>
+        {{ item.category }}
+        <ion-badge
+          color="primary"
+          slot="end"
+          *ngIf="item.key !== 'postinterviewexperience'"
+          >{{ item.count }}</ion-badge
+        >
+      </ion-item>
+    </div>
   </ion-list>
 </ion-content>

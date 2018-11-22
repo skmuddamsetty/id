@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs';
 import {
   AngularFirestore,
   AngularFirestoreDocument
@@ -10,6 +11,7 @@ import * as firebase from 'firebase';
 
 @Injectable()
 export class AuthService {
+  private _currentuid: BehaviorSubject<any> = new BehaviorSubject('');
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
@@ -50,6 +52,14 @@ export class AuthService {
 
   getCurrentUser() {
     return this.afAuth.auth.currentUser;
+  }
+
+  getCurrentUid() {
+    return this._currentuid.asObservable();
+  }
+
+  setCurrentUid(uid: string) {
+    this._currentuid.next(uid);
   }
 
   async onWebGoogleLogin(): Promise<void> {

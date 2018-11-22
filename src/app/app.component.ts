@@ -7,6 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +45,8 @@ export class AppComponent {
     private statusBar: StatusBar,
     private afAuth: AngularFireAuth,
     public router: Router,
-    private googlePlus: GooglePlus
+    private googlePlus: GooglePlus,
+    private authService: AuthService
   ) {
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
     console.log('timestamp', timestamp);
@@ -52,7 +54,8 @@ export class AppComponent {
       if (user) {
         console.log('inside app component');
         this.isAuthenticated = true;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/post-interview-experience']); // change it as needed
+        this.authService.setCurrentUid(user.uid);
       } else {
         this.isAuthenticated = false;
         console.log('inside app component else');

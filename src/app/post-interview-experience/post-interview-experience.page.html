@@ -8,48 +8,42 @@
 </ion-header>
 
 <ion-content padding>
-  <form
-    [formGroup]="myForm"
-    (ngSubmit)="onAdd()"
-    *ngIf="this.currentuid === this.createUserId"
-  >
+  <form [formGroup]="myForm" (ngSubmit)="onPostQuestion()">
     <ion-item>
       <ion-label position="floating">Question</ion-label>
       <ion-textarea formControlName="question"></ion-textarea>
     </ion-item>
-    <ion-item>
-      <ion-label position="floating">Answer</ion-label>
-      <ion-textarea formControlName="answer"></ion-textarea>
-    </ion-item>
     <ion-button
       class="btn"
       expand="full"
       shape="round"
       color="primary"
       fill="solid"
-      (click)="onAdd()"
+      (click)="onPostQuestion()"
       [disabled]="!myForm.valid"
-      >Add
-    </ion-button>
-
-    <ion-button
-      class="btn"
-      expand="full"
-      shape="round"
-      color="primary"
-      fill="solid"
-      (click)="onSubmit()"
       >Submit
     </ion-button>
   </form>
-  <ion-card *ngFor="let item of conversationsArray">
-    <ion-item class="activated">
+  <ion-card *ngFor="let item of (_interviewQuestions | async)">
+    <ion-item>
       <ion-label
         ><span text-wrap>{{ item.question }}</span></ion-label
       >
     </ion-item>
-
-    <ion-card-content> {{ item.answer }} </ion-card-content>
+    <ion-item class="activated">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div text-center>
+              <ion-button fill="clear" slot="end"
+                ><ion-icon slot="end" name="arrow-dropup-circle"></ion-icon>View
+                Answers</ion-button
+              >
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
   </ion-card>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="goBack()">

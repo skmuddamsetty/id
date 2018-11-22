@@ -1,3 +1,4 @@
+import { InterviewQuestion } from './../models/interview-question.model';
 import { FilterInterviews } from './../models/filter-interviews.model';
 import { Category } from './../models/category.model';
 import { Interview, InterviewId } from './../models/interview.model';
@@ -26,6 +27,9 @@ export class DataService {
   systemDesignAnswersCollection: AngularFirestoreCollection<Answer>;
   interviewExpConversationsCollection: AngularFirestoreCollection<
     Conversations
+  >;
+  interviewQuestionsCollection: AngularFirestoreCollection<
+    InterviewQuestion
   >;
   interviewsCollection: AngularFirestoreCollection<Interview>;
   private _interviewId: BehaviorSubject<any> = new BehaviorSubject('');
@@ -143,5 +147,12 @@ export class DataService {
       count: count,
       updateDate: timestamp
     });
+  }
+
+  insertInterviewQuestion(interviewQuestion: InterviewQuestion) {
+    this.interviewQuestionsCollection = this.afs.collection(
+      'interview-questions'
+    );
+    this.interviewQuestionsCollection.add(interviewQuestion);
   }
 }

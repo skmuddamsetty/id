@@ -34,6 +34,7 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
   categoriesSubscription: Subscription;
   interviewsCount = 0;
   categoryId = '';
+  newInterviewIdFromDb = '';
   constructor(
     private dataService: DataService,
     private authService: AuthService,
@@ -99,7 +100,7 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
         this.interviewsCount
       );
       this.dataService.setInterviewId(interviewId);
-      this.router.navigate(['/post-interview-experience']);
+      this.newInterviewIdFromDb = interviewId.id;
     });
   }
 
@@ -131,5 +132,9 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     if (this.categoriesSubscription) {
       this.categoriesSubscription.unsubscribe();
     }
+  }
+
+  onClickPostExperience() {
+    this.router.navigate(['/post-interview-experience']);
   }
 }

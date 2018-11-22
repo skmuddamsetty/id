@@ -28,9 +28,7 @@ export class DataService {
   interviewExpConversationsCollection: AngularFirestoreCollection<
     Conversations
   >;
-  interviewQuestionsCollection: AngularFirestoreCollection<
-    InterviewQuestion
-  >;
+  interviewQuestionsCollection: AngularFirestoreCollection<InterviewQuestion>;
   interviewsCollection: AngularFirestoreCollection<Interview>;
   private _interviewId: BehaviorSubject<any> = new BehaviorSubject('');
   private categoryDoc: AngularFirestoreDocument<Category>;
@@ -154,5 +152,13 @@ export class DataService {
       'interview-questions'
     );
     this.interviewQuestionsCollection.add(interviewQuestion);
+  }
+
+  deleteInterviewQuestion(uniqueId: string) {
+    this.afs
+      .collection('interview-questions')
+      .doc(uniqueId)
+      .delete()
+      .then(() => {});
   }
 }

@@ -20,6 +20,11 @@ import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 import { InterviewId } from '../models/interview.model';
+import {
+  ActionSheetController,
+  ToastController,
+  AlertController
+} from '@ionic/angular';
 
 @Component({
   selector: 'app-post-interview-experience',
@@ -46,7 +51,10 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
     private readonly afs: AngularFirestore,
     public router: Router,
     public dataService: DataService,
-    private authService: AuthService
+    private authService: AuthService,
+    public actionSheetController: ActionSheetController,
+    public toastController: ToastController,
+    public alertController: AlertController
   ) {}
 
   ngOnInit() {
@@ -63,7 +71,7 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
         this.currentInterviewId = res.id;
       }
     );
-    // this.currentInterviewId = 'q4EXvwy2Qogh6JOWglia';
+    this.currentInterviewId = 'q4EXvwy2Qogh6JOWglia';
     this.interviewQuestionsCollection = this.afs.collection<InterviewQuestion>(
       'interview-questions',
       ref => {
@@ -85,6 +93,91 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
 
   goBack() {
     this.router.navigate(['/home']);
+  }
+
+  onMoreOptions(interviewQuestionId: InterviewQuestionId) {
+    this.presentActionSheet(interviewQuestionId);
+  }
+
+  async presentActionSheet(interviewQuestionId: InterviewQuestionId) {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Albums',
+      buttons: [
+        {
+          text: 'Edit',
+          icon: 'create',
+          handler: () => {
+            console.log('Edit clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          icon: 'trash',
+          handler: () => {
+            this.presentDeleteAlertConfirm(interviewQuestionId);
+          }
+        },
+        {
+          text: 'Share',
+          icon: 'share',
+          handler: () => {
+            console.log('Share clicked');
+          }
+        },
+        {
+          text: 'Bookmark',
+          icon: 'bookmark',
+          handler: () => {
+            console.log('Bookmark clicked');
+          }
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async presentDeleteAlertConfirm(interviewQuestionId: InterviewQuestionId) {
+    const alert = await this.alertController.create({
+      header: 'Confirm!',
+      message:
+        'Are you sure you want to delete this <strong>Question</strong>?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: blah => {
+            console.log('Confirm Cancel: blah');
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: () => {
+            this.dataService.deleteInterviewQuestion(interviewQuestionId.id);
+            this.presentToast('Your Question has been deleted Successfully!');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   private initForm() {
@@ -111,6 +204,7 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
       interviewId: this.currentInterviewId
     };
     this.dataService.insertInterviewQuestion(interviewQuestion);
+    this.presentToast('Your Question has been added Successfully!');
     this.myForm.reset();
   }
 }

@@ -29,6 +29,9 @@
       <ion-label
         ><span text-wrap>{{ item.question }}</span></ion-label
       >
+      <ion-button fill="clear" slot="end" (click)="onMoreOptions(item)"
+        ><ion-icon slot="end" name="more"></ion-icon
+      ></ion-button>
     </ion-item>
     <ion-item class="activated">
       <ion-grid>

@@ -54,10 +54,6 @@ export class ViewAnswersPage implements OnInit, OnDestroy {
     this._currentInterviewQuestionSubscription = this._currentInterviewQuestionObServable.subscribe(
       currentInterviewQuestionId => {
         this.currentInterviewQuestionId = currentInterviewQuestionId;
-        console.log(
-          'this.currentInterviewQuestionId',
-          this.currentInterviewQuestionId
-        );
         if (this.currentInterviewQuestionId) {
           console.log(
             'this.currentInterviewQuestionId',
@@ -80,7 +76,6 @@ export class ViewAnswersPage implements OnInit, OnDestroy {
                   this.noAnswers = false;
                   const data = a.payload.doc.data() as InterviewAnswer;
                   const id = a.payload.doc.id;
-                  console.log(data);
                   return { id, ...data };
                 })
               )
@@ -101,7 +96,7 @@ export class ViewAnswersPage implements OnInit, OnDestroy {
       answer: this.myForm.value.answer,
       createDate: firebase.firestore.FieldValue.serverTimestamp(),
       createUserId: this.currentuid,
-      questiondId: this.currentInterviewQuestionId.id,
+      questionId: this.currentInterviewQuestionId.id,
       userName: 'John Doe'
     };
     // this.dataService.insertInterviewAnswer(interviewAnswer);

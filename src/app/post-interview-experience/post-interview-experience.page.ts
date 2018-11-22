@@ -1,3 +1,4 @@
+import { ViewAnswersPage } from './../view-answers/view-answers.page';
 import {
   InterviewQuestion,
   InterviewQuestionId
@@ -23,7 +24,8 @@ import { InterviewId } from '../models/interview.model';
 import {
   ActionSheetController,
   ToastController,
-  AlertController
+  AlertController,
+  ModalController
 } from '@ionic/angular';
 
 @Component({
@@ -54,7 +56,8 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
     private authService: AuthService,
     public actionSheetController: ActionSheetController,
     public toastController: ToastController,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -206,5 +209,23 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
     this.dataService.insertInterviewQuestion(interviewQuestion);
     this.presentToast('Your Question has been added Successfully!');
     this.myForm.reset();
+  }
+
+  onViewAnswers(interviewQuestionId: InterviewQuestionId) {
+    const interviewQuestion: InterviewQuestionId = {
+      question: interviewQuestionId.question,
+      id: interviewQuestionId.id,
+      createUserId: interviewQuestionId.createUserId
+    };
+    this.dataService.setCurrentQuestion(interviewQuestion);
+    this.moveToFirst();
+  }
+
+  async moveToFirst() {
+    const modal = await this.modalCtrl.create({
+      component: ViewAnswersPage
+    });
+
+    return await modal.present();
   }
 }

@@ -18,6 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 import { DataService } from './services/data.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ViewAnswersPageModule } from './view-answers/view-answers.module';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -29,7 +30,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features,
-    SystemDesignAnswersListPageModule
+    SystemDesignAnswersListPageModule,
+    ViewAnswersPageModule
   ],
   providers: [
     StatusBar,

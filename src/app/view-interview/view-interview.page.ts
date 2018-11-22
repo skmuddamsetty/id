@@ -1,3 +1,5 @@
+import { ViewAnswersPage } from './../view-answers/view-answers.page';
+import { ModalController } from '@ionic/angular';
 import {
   InterviewQuestion,
   InterviewQuestionId
@@ -32,7 +34,8 @@ export class ViewInterviewPage implements OnInit, OnDestroy {
   constructor(
     public dataService: DataService,
     public router: Router,
-    private readonly afs: AngularFirestore
+    private readonly afs: AngularFirestore,
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -66,6 +69,24 @@ export class ViewInterviewPage implements OnInit, OnDestroy {
 
   goBack() {
     this.router.navigate(['/interview-experiences-list']);
+  }
+
+  onViewAnswers(interviewQuestionId: InterviewQuestionId) {
+    const interviewQuestion: InterviewQuestionId = {
+      question: interviewQuestionId.question,
+      id: interviewQuestionId.id,
+      createUserId: interviewQuestionId.createUserId
+    };
+    this.dataService.setCurrentQuestion(interviewQuestion);
+    this.moveToFirst();
+  }
+
+  async moveToFirst() {
+    const modal = await this.modalCtrl.create({
+      component: ViewAnswersPage
+    });
+
+    return await modal.present();
   }
 
   ngOnDestroy() {

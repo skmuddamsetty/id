@@ -1,4 +1,8 @@
-import { InterviewQuestion } from './../models/interview-question.model';
+import { InterviewAnswer } from './../models/interview-answer.model';
+import {
+  InterviewQuestion,
+  InterviewQuestionId
+} from './../models/interview-question.model';
 import { FilterInterviews } from './../models/filter-interviews.model';
 import { Category } from './../models/category.model';
 import { Interview, InterviewId } from './../models/interview.model';
@@ -23,12 +27,16 @@ export class DataService {
   private _emptyQuestionDesignSource: BehaviorSubject<
     any
   > = new BehaviorSubject('');
+  private _currentInterviewQuestion: BehaviorSubject<any> = new BehaviorSubject(
+    ''
+  );
   systemDesignQuestionsCollection: AngularFirestoreCollection<Question>;
   systemDesignAnswersCollection: AngularFirestoreCollection<Answer>;
   interviewExpConversationsCollection: AngularFirestoreCollection<
     Conversations
   >;
   interviewQuestionsCollection: AngularFirestoreCollection<InterviewQuestion>;
+  interviewAnswersCollection: AngularFirestoreCollection<InterviewAnswer>;
   interviewsCollection: AngularFirestoreCollection<Interview>;
   private _interviewId: BehaviorSubject<any> = new BehaviorSubject('');
   private categoryDoc: AngularFirestoreDocument<Category>;
@@ -101,6 +109,14 @@ export class DataService {
     this._emptyQuestionDesignSource.next(question);
   }
 
+  getCurrentInterviewQuestion() {
+    return this._currentInterviewQuestion.asObservable();
+  }
+
+  setCurrentInterviewQuestion(interviewQuestionId: InterviewQuestionId) {
+    this._currentInterviewQuestion.next(interviewQuestionId);
+  }
+
   insertQuestion(question: Question) {
     this.systemDesignQuestionsCollection = this.afs.collection(
       'system-design-questions'
@@ -152,6 +168,11 @@ export class DataService {
       'interview-questions'
     );
     this.interviewQuestionsCollection.add(interviewQuestion);
+  }
+
+  insertInterviewAnswer(interviewAnswer: InterviewAnswer) {
+    this.interviewAnswersCollection = this.afs.collection('interview-answers');
+    this.interviewAnswersCollection.add(interviewAnswer);
   }
 
   deleteInterviewQuestion(uniqueId: string) {

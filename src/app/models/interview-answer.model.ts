@@ -3,8 +3,8 @@ export interface InterviewAnswer {
   createUserId?: string;
   createDate?: any;
   interviewId?: string;
-  questiondId: string;
-  userName: string;
+  questiondId?: string;
+  userName?: string;
 }
 export interface InterviewAnswerId extends InterviewAnswer {
   id: string;

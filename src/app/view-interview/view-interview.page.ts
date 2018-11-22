@@ -72,12 +72,7 @@ export class ViewInterviewPage implements OnInit, OnDestroy {
   }
 
   onViewAnswers(interviewQuestionId: InterviewQuestionId) {
-    const interviewQuestion: InterviewQuestionId = {
-      question: interviewQuestionId.question,
-      id: interviewQuestionId.id,
-      createUserId: interviewQuestionId.createUserId
-    };
-    this.dataService.setCurrentQuestion(interviewQuestion);
+    this.dataService.setCurrentInterviewQuestion(interviewQuestionId);
     this.moveToFirst();
   }
 

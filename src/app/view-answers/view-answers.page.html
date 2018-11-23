@@ -32,11 +32,22 @@
     </ion-row>
   </ion-grid>
   <ion-card *ngFor="let item of (_interviewAnswers | async)">
-    <ion-item>
-      <ion-label
-        ><span text-wrap>{{ item.answer }}</span></ion-label
-      >
+    <ion-item class="activated">
+      <ion-avatar item-left>
+        <img src="https://avatars.io/facebook/joshua.morony" />
+      </ion-avatar>
+      <div class="answer-box-header">
+        <h2 class="answer-box-header__user-name">{{ item.userName }}</h2>
+        <p class="answer-box-header__date">
+          {{ item.createDate.toDate() | date }}
+        </p>
+      </div>
+      <ion-button fill="clear" slot="end" (click)="onMoreOptions(item)"
+        ><ion-icon slot="end" name="more"></ion-icon
+      ></ion-button>
     </ion-item>
+
+    <ion-card-content> {{ item.answer }} </ion-card-content>
   </ion-card>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="closeModal()">

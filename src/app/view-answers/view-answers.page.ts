@@ -6,7 +6,12 @@ import {
   InterviewAnswerId
 } from './../models/interview-answer.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ModalController, ToastController } from '@ionic/angular';
+import {
+  ModalController,
+  ToastController,
+  ActionSheetController,
+  AlertController
+} from '@ionic/angular';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { DataService } from '../services/data.service';
@@ -39,7 +44,9 @@ export class ViewAnswersPage implements OnInit, OnDestroy {
     private authService: AuthService,
     private dataService: DataService,
     public toastController: ToastController,
-    private readonly afs: AngularFirestore
+    private readonly afs: AngularFirestore,
+    public actionSheetController: ActionSheetController,
+    public alertController: AlertController
   ) {}
 
   ngOnInit() {
@@ -124,6 +131,82 @@ export class ViewAnswersPage implements OnInit, OnDestroy {
 
   closeModal() {
     this.modalCtrl.dismiss();
+  }
+
+  onMoreOptions(interviewAnswerId: InterviewAnswerId) {
+    this.presentActionSheet(interviewAnswerId);
+  }
+
+  async presentActionSheet(interviewAnswerId: InterviewAnswerId) {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Options',
+      buttons: [
+        {
+          text: 'Edit',
+          icon: 'create',
+          handler: () => {
+            console.log('Edit clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          icon: 'trash',
+          handler: () => {
+            this.presentDeleteAlertConfirm(interviewAnswerId);
+          }
+        },
+        {
+          text: 'Share',
+          icon: 'share',
+          handler: () => {
+            console.log('Share clicked');
+          }
+        },
+        {
+          text: 'Bookmark',
+          icon: 'bookmark',
+          handler: () => {
+            console.log('Bookmark clicked');
+          }
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  async presentDeleteAlertConfirm(interviewQuestionId: InterviewQuestionId) {
+    const alert = await this.alertController.create({
+      header: 'Confirm!',
+      message: 'Are you sure you want to delete this <strong>Answer</strong>?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: blah => {
+            console.log('Confirm Cancel: blah');
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: () => {
+            this.dataService.deleteInterviewQuestion(interviewQuestionId.id);
+            this.presentToast('Your Answer has been deleted Successfully!');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   ngOnDestroy() {

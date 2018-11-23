@@ -23,3 +23,18 @@
 .interview-title {
   text-transform: capitalize;
 }
+
+.answer-box-header {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  padding-bottom: 0.2rem;
+  &__date {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+  &__user-name {
+    margin-top: 0.2rem;
+    font-size: 1rem;
+  }
+}

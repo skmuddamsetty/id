@@ -74,7 +74,7 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
         this.currentInterviewId = res.id;
       }
     );
-    this.currentInterviewId = 'q4EXvwy2Qogh6JOWglia';
+    // this.currentInterviewId = 'q4EXvwy2Qogh6JOWglia';
     this.interviewQuestionsCollection = this.afs.collection<InterviewQuestion>(
       'interview-questions',
       ref => {

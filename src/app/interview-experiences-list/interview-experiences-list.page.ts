@@ -33,11 +33,11 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
   _currentUidSubscription: Subscription;
   currentuid = '';
   lastVisible: any;
-  test = '';
   interviews: Interview[];
   interviewsList: Interview[];
   _initInterviewsSubscription: Subscription;
   _scrollInterviewsSubscription: Subscription;
+  filter = '';
   constructor(
     public router: Router,
     private readonly afs: AngularFirestore,
@@ -61,6 +61,7 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
       interviewFilters => {
         this.interviewFiltersObj = interviewFilters;
         if (this.interviewFiltersObj && this.interviewFiltersObj.createUserId) {
+          this.filter = 'createUserId';
           this.interviewsCollection = this.afs.collection<Interview>(
             'interviews',
             ref => {
@@ -88,6 +89,7 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
             }
           );
         } else {
+          this.filter = '';
           this.interviewsCollection = this.afs.collection<Interview>(
             'interviews',
             ref => {
@@ -280,15 +282,31 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
     }
     if (this.lastVisible) {
       console.log('Begin async operation');
-      this.interviewsCollection = this.afs.collection<Interview>(
-        'interviews',
-        ref => {
-          return ref
-            .orderBy('createDate', 'desc')
-            .limit(1)
-            .startAfter(this.lastVisible);
-        }
-      );
+      if (this.filter === 'createUserId') {
+        this.interviewsCollection = this.afs.collection<Interview>(
+          'interviews',
+          ref => {
+            return ref
+              .where(
+                'createUserId',
+                '==',
+                this.interviewFiltersObj.createUserId
+              )
+              .limit(1)
+              .startAfter(this.lastVisible);
+          }
+        );
+      } else {
+        this.interviewsCollection = this.afs.collection<Interview>(
+          'interviews',
+          ref => {
+            return ref
+              .orderBy('createDate', 'desc')
+              .limit(1)
+              .startAfter(this.lastVisible);
+          }
+        );
+      }
       this.interviewsCollection
         .get()
         .toPromise()
@@ -321,6 +339,6 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
   }
 
   onPostInterviewExperience() {
-    this.router.navigate(['/post-interview-experience']);
+    this.router.navigate(['/create-interview']);
   }
 }

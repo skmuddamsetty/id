@@ -20,53 +20,58 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-card *ngFor="let item of (_interviews | async)">
-    <ion-item class="activated">
-      <ion-avatar item-left>
-        <img src="../../assets/icon/favicon.png" />
-      </ion-avatar>
-      <div class="answer-box-header">
-        <h2 class="answer-box-header__user-name">John Doe</h2>
-        <p class="answer-box-header__date" *ngIf="item.createDate">
-          {{ item.createDate.toDate() | date }}
-        </p>
-      </div>
-      <ion-button fill="outline" slot="end" (click)="onViewInterview(item)"
-        >View</ion-button
-      >
-      <ion-button fill="clear" slot="end" (click)="onMoreOptions(item)"
-        ><ion-icon slot="end" name="more"></ion-icon
-      ></ion-button>
-    </ion-item>
+  <div class="content">
+    <ion-card *ngFor="let item of (_interviews | async)" class="fadeInLeft">
+      <ion-item class="activated">
+        <ion-avatar item-left>
+          <img src="../../assets/icon/favicon.png" />
+        </ion-avatar>
+        <div class="answer-box-header">
+          <h2 class="answer-box-header__user-name">John Doe</h2>
+          <p class="answer-box-header__date" *ngIf="item.createDate">
+            {{ item.createDate.toDate() | date }}
+          </p>
+        </div>
+        <ion-button fill="outline" slot="end" (click)="onViewInterview(item)"
+          >View</ion-button
+        >
+        <ion-button fill="clear" slot="end" (click)="onMoreOptions(item)"
+          ><ion-icon slot="end" name="more"></ion-icon
+        ></ion-button>
+      </ion-item>
 
-    <ion-card-content>
-      <div class="card-body">
-        <div class="card-body__box">
-          <div class="card-subtitle">Client</div>
-          <div class="card-text">{{ item.company }}</div>
-        </div>
-        <div class="card-body__box">
-          <div class="card-subtitle">Location</div>
-          <div class="card-text">{{ item.location }}</div>
-        </div>
-        <div class="card-body__box">
-          <div class="card-subtitle">Role</div>
-          <div class="card-text">{{ item.role }}</div>
-        </div>
-        <div class="card-body__box">
-          <div class="card-subtitle">Technologies</div>
-          <div class="card-text-tech-ul">
-            <div
-              class="card-text-tech-li"
-              *ngFor="let tech of item.technologies"
-            >
-              {{ tech }}
+      <ion-card-content>
+        <div class="card-body">
+          <div class="card-body__box">
+            <div class="card-subtitle">Client</div>
+            <div class="card-text">{{ item.company }}</div>
+          </div>
+          <div class="card-body__box">
+            <div class="card-subtitle">Location</div>
+            <div class="card-text">{{ item.location }}</div>
+          </div>
+          <div class="card-body__box">
+            <div class="card-subtitle">Role</div>
+            <div class="card-text">{{ item.role }}</div>
+          </div>
+          <div class="card-body__box">
+            <div class="card-subtitle">Technologies</div>
+            <div class="card-text-tech-ul">
+              <div
+                class="card-text-tech-li"
+                *ngFor="let tech of item.technologies"
+              >
+                {{ tech }}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </ion-card-content>
-  </ion-card>
+      </ion-card-content>
+    </ion-card>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="goBack()">
       <ion-icon name="arrow-dropleft"></ion-icon>

@@ -1,3 +1,4 @@
+import { PaginationService } from './services/pagination.service';
 import { SystemDesignAnswersListPageModule } from './system-design-answers-list/system-design-answers-list.module';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { AuthService } from './services/auth.service';
@@ -19,8 +20,9 @@ import { AngularFireModule } from '@angular/fire';
 import { DataService } from './services/data.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ViewAnswersPageModule } from './view-answers/view-answers.module';
+import { ScrollableDirective } from './scrollable.directive';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ScrollableDirective],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -39,7 +41,8 @@ import { ViewAnswersPageModule } from './view-answers/view-answers.module';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,
     GooglePlus,
-    DataService
+    DataService,
+    PaginationService
   ],
   bootstrap: [AppComponent]
 })

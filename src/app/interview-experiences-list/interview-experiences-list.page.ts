@@ -32,6 +32,10 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
   _currentUidObServable: Observable<string>;
   _currentUidSubscription: Subscription;
   currentuid = '';
+  lastVisible: any;
+  test = '';
+  interviews: Interview[];
+  interviewsList: Interview[];
   constructor(
     public router: Router,
     private readonly afs: AngularFirestore,
@@ -43,6 +47,7 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this._interviews = this.dataService.getInterviews();
     this._currentUidObServable = this.authService.getCurrentUid();
     this._currentUidSubscription = this._currentUidObServable.subscribe(
       currentUid => {
@@ -82,17 +87,40 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
           this.interviewsCollection = this.afs.collection<Interview>(
             'interviews'
           );
+          this.interviewsCollection = this.afs.collection<Interview>(
+            'interviews',
+            ref => {
+              return ref
+                .where('createUserId', '==', 'OPAmE9OfTPflYdlx8eVWvVkksNg1')
+                .limit(2);
+            }
+          );
         }
-        this._interviews = this.interviewsCollection.snapshotChanges().pipe(
-          map(actions =>
-            actions.map(a => {
-              this.noInterviews = false;
-              const data = a.payload.doc.data() as Interview;
-              const id = a.payload.doc.id;
-              return { id, ...data };
+        this.interviewsCollection
+          .get()
+          .toPromise()
+          .then(documentSnapshots => {
+            // Get the last visible document
+            this.lastVisible =
+              documentSnapshots.docs[documentSnapshots.docs.length - 1];
+            console.log(this.lastVisible);
+          });
+        this.interviewsCollection
+          .snapshotChanges()
+          .pipe(
+            map(actions => {
+              this.interviews = actions.map(a => {
+                this.noInterviews = false;
+                const data = a.payload.doc.data() as Interview;
+                const id = a.payload.doc.id;
+                return { id, ...data };
+              });
             })
           )
-        );
+          .subscribe(res => {
+            console.log(this.interviews);
+            this.dataService.setInterviews(this.interviews);
+          });
       }
     );
   }
@@ -236,5 +264,46 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
       duration: 2000
     });
     toast.present();
+  }
+
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+    // this.paginationService.more();
+    this.interviewsCollection = this.afs.collection<Interview>(
+      'interviews',
+      ref => {
+        return ref
+          .where('createUserId', '==', 'OPAmE9OfTPflYdlx8eVWvVkksNg1')
+          .startAfter(this.lastVisible)
+          .limit(1);
+      }
+    );
+    this.interviewsCollection
+      .get()
+      .toPromise()
+      .then(documentSnapshots => {
+        // Get the last visible document
+        this.lastVisible =
+          documentSnapshots.docs[documentSnapshots.docs.length - 1];
+        console.log(this.lastVisible);
+      });
+    this.interviewsCollection
+      .snapshotChanges()
+      .pipe(
+        map(actions => {
+          actions.map(a => {
+            this.noInterviews = false;
+            const data = a.payload.doc.data() as Interview;
+            const id = a.payload.doc.id;
+            this.interviews.push(data);
+            return { id, ...data };
+          });
+        })
+      )
+      .subscribe(res => {
+        console.log(this.interviews);
+        this.dataService.setInterviews(this.interviews);
+      });
+    infiniteScroll.target.complete();
   }
 }

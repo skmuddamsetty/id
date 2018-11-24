@@ -80,4 +80,8 @@ export class AppComponent {
     this.isAuthenticated = false;
     this.router.navigate(['/log-in']);
   }
+
+  scrollHandler(e) {
+    console.log(e);
+  }
 }

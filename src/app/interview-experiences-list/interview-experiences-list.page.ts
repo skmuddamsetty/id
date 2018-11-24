@@ -36,6 +36,8 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
   test = '';
   interviews: Interview[];
   interviewsList: Interview[];
+  _initInterviewsSubscription: Subscription;
+  _scrollInterviewsSubscription: Subscription;
   constructor(
     public router: Router,
     private readonly afs: AngularFirestore,
@@ -62,11 +64,13 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
           this.interviewsCollection = this.afs.collection<Interview>(
             'interviews',
             ref => {
-              return ref.where(
-                'createUserId',
-                '==',
-                this.interviewFiltersObj.createUserId
-              );
+              return ref
+                .where(
+                  'createUserId',
+                  '==',
+                  this.interviewFiltersObj.createUserId
+                )
+                .limit(2);
             }
           );
         } else if (
@@ -85,14 +89,9 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
           );
         } else {
           this.interviewsCollection = this.afs.collection<Interview>(
-            'interviews'
-          );
-          this.interviewsCollection = this.afs.collection<Interview>(
             'interviews',
             ref => {
-              return ref
-                .where('createUserId', '==', 'OPAmE9OfTPflYdlx8eVWvVkksNg1')
-                .limit(2);
+              return ref.orderBy('createDate', 'desc').limit(2);
             }
           );
         }
@@ -104,8 +103,11 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
             this.lastVisible =
               documentSnapshots.docs[documentSnapshots.docs.length - 1];
             console.log(this.lastVisible);
+          })
+          .catch(err => {
+            this.lastVisible = '';
           });
-        this.interviewsCollection
+        this._initInterviewsSubscription = this.interviewsCollection
           .snapshotChanges()
           .pipe(
             map(actions => {
@@ -137,6 +139,12 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this._interviewFiltersSubscription) {
       this._interviewFiltersSubscription.unsubscribe();
+    }
+    if (this._initInterviewsSubscription) {
+      this._initInterviewsSubscription.unsubscribe();
+    }
+    if (this._scrollInterviewsSubscription) {
+      this._scrollInterviewsSubscription.unsubscribe();
     }
   }
 
@@ -267,43 +275,52 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
   }
 
   doInfinite(infiniteScroll) {
-    console.log('Begin async operation');
-    // this.paginationService.more();
-    this.interviewsCollection = this.afs.collection<Interview>(
-      'interviews',
-      ref => {
-        return ref
-          .where('createUserId', '==', 'OPAmE9OfTPflYdlx8eVWvVkksNg1')
-          .startAfter(this.lastVisible)
-          .limit(1);
-      }
-    );
-    this.interviewsCollection
-      .get()
-      .toPromise()
-      .then(documentSnapshots => {
-        // Get the last visible document
-        this.lastVisible =
-          documentSnapshots.docs[documentSnapshots.docs.length - 1];
-        console.log(this.lastVisible);
-      });
-    this.interviewsCollection
-      .snapshotChanges()
-      .pipe(
-        map(actions => {
-          actions.map(a => {
-            this.noInterviews = false;
-            const data = a.payload.doc.data() as Interview;
-            const id = a.payload.doc.id;
-            this.interviews.push(data);
-            return { id, ...data };
-          });
-        })
-      )
-      .subscribe(res => {
-        console.log(this.interviews);
-        this.dataService.setInterviews(this.interviews);
-      });
-    infiniteScroll.target.complete();
+    if (this._initInterviewsSubscription) {
+      this._initInterviewsSubscription.unsubscribe();
+    }
+    if (this.lastVisible) {
+      console.log('Begin async operation');
+      this.interviewsCollection = this.afs.collection<Interview>(
+        'interviews',
+        ref => {
+          return ref
+            .orderBy('createDate', 'desc')
+            .limit(1)
+            .startAfter(this.lastVisible);
+        }
+      );
+      this.interviewsCollection
+        .get()
+        .toPromise()
+        .then(documentSnapshots => {
+          // Get the last visible document
+          this.lastVisible =
+            documentSnapshots.docs[documentSnapshots.docs.length - 1];
+          console.log(this.lastVisible);
+        });
+      this._scrollInterviewsSubscription = this.interviewsCollection
+        .snapshotChanges()
+        .pipe(
+          map(actions => {
+            actions.map(a => {
+              this.noInterviews = false;
+              const data = a.payload.doc.data() as Interview;
+              const id = a.payload.doc.id;
+              this.interviews.push(data);
+              return { id, ...data };
+            });
+          })
+        )
+        .subscribe(res => {
+          console.log('scroll', this.interviews);
+          this.dataService.setInterviews(this.interviews);
+          infiniteScroll.target.complete();
+          this._scrollInterviewsSubscription.unsubscribe();
+        });
+    }
+  }
+
+  onPostInterviewExperience() {
+    this.router.navigate(['/post-interview-experience']);
   }
 }

@@ -18,9 +18,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 import { DataService } from './services/data.service';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ViewAnswersPageModule } from './view-answers/view-answers.module';
 import { ScrollableDirective } from './scrollable.directive';
+import { TechnologiesListPageModule } from './technologies-list/technologies-list.module';
 @NgModule({
   declarations: [AppComponent, ScrollableDirective],
   entryComponents: [],
@@ -33,7 +33,8 @@ import { ScrollableDirective } from './scrollable.directive';
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features,
     SystemDesignAnswersListPageModule,
-    ViewAnswersPageModule
+    ViewAnswersPageModule,
+    TechnologiesListPageModule
   ],
   providers: [
     StatusBar,

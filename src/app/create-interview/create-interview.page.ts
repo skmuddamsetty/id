@@ -1,3 +1,4 @@
+import { ModalController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import { Category, CategoryId } from './../models/category.model';
 import { Router } from '@angular/router';
@@ -18,6 +19,7 @@ import {
 } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
+import { TechnologiesListPage } from '../technologies-list/technologies-list.page';
 
 @Component({
   selector: 'app-create-interview',
@@ -39,7 +41,8 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     private dataService: DataService,
     private authService: AuthService,
     private router: Router,
-    private readonly afs: AngularFirestore
+    private readonly afs: AngularFirestore,
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -117,7 +120,7 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     });
   }
 
-  onAddTechnology(ngForm: NgForm) {
+  onAddTechnolog(ngForm: NgForm) {
     (<FormArray>this.myForm.get('technologies')).push(
       new FormControl(ngForm.value.technology, Validators.required)
     );
@@ -136,5 +139,17 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
 
   onClickPostExperience() {
     this.router.navigate(['/post-interview-experience']);
+  }
+
+  onOpenTechnologiesModal() {
+    this.openModal();
+  }
+
+  async openModal() {
+    const modal = await this.modalCtrl.create({
+      component: TechnologiesListPage
+    });
+
+    return await modal.present();
   }
 }

@@ -5,11 +5,10 @@ import {
 } from './../models/interview-question.model';
 import { AuthService } from './../services/auth.service';
 import {
-  Conversations,
-  ConversationsId
+  Conversations
 } from './../models/conversations.model';
 import { Conversation } from './../models/conversation.model';
-import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 import {
   AngularFirestoreCollection,
   AngularFirestore

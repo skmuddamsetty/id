@@ -26,7 +26,8 @@ const routes: Routes = [
   { path: 'post-interview-experience', loadChildren: './post-interview-experience/post-interview-experience.module#PostInterviewExperiencePageModule' },
   { path: 'create-interview', loadChildren: './create-interview/create-interview.module#CreateInterviewPageModule' },
   { path: 'view-interview', loadChildren: './view-interview/view-interview.module#ViewInterviewPageModule' },
-  { path: 'view-answers', loadChildren: './view-answers/view-answers.module#ViewAnswersPageModule' }
+  { path: 'view-answers', loadChildren: './view-answers/view-answers.module#ViewAnswersPageModule' },
+  { path: 'technologies-list', loadChildren: './technologies-list/technologies-list.module#TechnologiesListPageModule' }
 ];
 
 @NgModule({

@@ -6,7 +6,6 @@
     <ion-title> Create Interview </ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content padding>
   <form
     *ngIf="!this.newInterviewIdFromDb"
@@ -30,6 +29,16 @@
       <ion-label position="floating">Role</ion-label>
       <ion-input formControlName="role"></ion-input>
     </ion-item>
+    <ion-button
+      class="btn"
+      expand="block"
+      shape="round"
+      color="primary"
+      fill="outline"
+      size="small"
+      (click)="onOpenTechnologiesModal()"
+      >Add Technology</ion-button
+    >
     <form #f="ngForm" (ngSubmit)="onAddTechnology(f)" class="tech-form">
       <ion-grid class="tech-grid">
         <ion-row>

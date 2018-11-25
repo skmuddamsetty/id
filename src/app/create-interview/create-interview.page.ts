@@ -53,6 +53,8 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
+    this.selectedTechs = [];
+    this.displaySelectedTechs = [];
     this._selectedTechsObServable = this.dataService.getSelectedTechs();
     this._selectedTechsSubscription = this._selectedTechsObServable.subscribe(
       displaySelectedTechs => {
@@ -144,6 +146,12 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     if (this._selectedTechsSubscription) {
       this._selectedTechsSubscription.unsubscribe();
     }
+    if (this._selectedTechsKeysSubscription) {
+      this._selectedTechsKeysSubscription.unsubscribe();
+    }
+    this.myForm.reset();
+    this.selectedTechs = [];
+    this.displaySelectedTechs = [];
   }
 
   onClickPostExperience() {

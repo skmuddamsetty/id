@@ -51,17 +51,26 @@ export class DataService {
     FilterInterviews
   > = new BehaviorSubject(this.emptyFilterFoInterview);
   private _interviews = new BehaviorSubject([]);
-  private _selectedTechsArray: BehaviorSubject<string[]> = new BehaviorSubject(
-    []
-  );
+  private _selectedTechsArray: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  private _selectedTechsKeysArray: BehaviorSubject<
+    string[]
+  > = new BehaviorSubject([]);
   constructor(private readonly afs: AngularFirestore) {}
 
   getSelectedTechs() {
     return this._selectedTechsArray.asObservable();
   }
 
-  setSelectedTechs(selectedTechs: string[]) {
+  setSelectedTechs(selectedTechs: any[]) {
     this._selectedTechsArray.next(selectedTechs);
+  }
+
+  getSelectedTechKeys() {
+    return this._selectedTechsKeysArray.asObservable();
+  }
+
+  setSelectedTechKeys(selectedTechKeys: string[]) {
+    this._selectedTechsKeysArray.next(selectedTechKeys);
   }
 
   getInterviews() {

@@ -29,10 +29,12 @@
       <ion-label position="floating">Role</ion-label>
       <ion-input formControlName="role"></ion-input>
     </ion-item>
-    <ion-list *ngIf="this.selectedTechs && this.selectedTechs.length > 0">
+    <ion-list
+      *ngIf="this.displaySelectedTechs && this.displaySelectedTechs.length > 0"
+    >
       <ion-list-header> Selected Skills </ion-list-header>
-      <ion-item *ngFor="let entry of selectedTechs">
-        <ion-label>{{ entry }}</ion-label>
+      <ion-item *ngFor="let entry of displaySelectedTechs">
+        <ion-label>{{ entry.value }}</ion-label>
       </ion-item>
     </ion-list>
     <ion-button

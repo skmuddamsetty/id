@@ -14,17 +14,27 @@
   <ion-list>
     <ion-list-header> Skills </ion-list-header>
     <ion-item *ngFor="let entry of selectableTechs">
-      <ion-label>{{ entry }}</ion-label>
-      <ion-button fill="clear" slot="end" (click)="onAddTechnology(entry)"
+      <ion-label>{{ entry.value }}</ion-label>
+      <ion-button
+        fill="clear"
+        slot="end"
+        (click)="onAddTechnology(entry.key, entry.value)"
         >Add</ion-button
       >
     </ion-item>
   </ion-list>
-  <ion-list *ngIf="this.selectedTechs && this.selectedTechs.length > 0">
+  <ion-list
+    *ngIf="
+      this.selectedTechsForDisplay && this.selectedTechsForDisplay.length > 0
+    "
+  >
     <ion-list-header> Selected Skills </ion-list-header>
-    <ion-item *ngFor="let entry of selectedTechs">
-      <ion-label>{{ entry }}</ion-label>
-      <ion-button fill="clear" slot="end" (click)="onDeleteTechnology(entry)"
+    <ion-item *ngFor="let entry of selectedTechsForDisplay">
+      <ion-label>{{ entry.value }}</ion-label>
+      <ion-button
+        fill="clear"
+        slot="end"
+        (click)="onDeleteTechnology(entry.key)"
         >Remove</ion-button
       >
     </ion-item>
@@ -33,11 +43,11 @@
     <ion-fab-button (click)="closeModal()">
       <ion-icon
         name="arrow-dropdown"
-        *ngIf="!this.selectedTechs || this.selectedTechs.length == 0"
+        *ngIf="!this.selectedTechsKeys || this.selectedTechsKeys.length == 0"
       ></ion-icon>
       <ion-icon
         name="thumbs-up"
-        *ngIf="this.selectedTechs && this.selectedTechs.length > 0"
+        *ngIf="this.selectedTechsKeys && this.selectedTechsKeys.length > 0"
       ></ion-icon>
     </ion-fab-button>
   </ion-fab>

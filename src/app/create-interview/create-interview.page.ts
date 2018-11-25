@@ -37,9 +37,12 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
   interviewsCount = 0;
   categoryId = '';
   newInterviewIdFromDb = '';
-  _selectedTechsObServable: Observable<string[]>;
+  _selectedTechsObServable: Observable<any[]>;
   _selectedTechsSubscription: Subscription;
+  _selectedTechsKeysObServable: Observable<any[]>;
+  _selectedTechsKeysSubscription: Subscription;
   selectedTechs = [];
+  displaySelectedTechs = [];
   constructor(
     private dataService: DataService,
     private authService: AuthService,
@@ -52,6 +55,12 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     this.initForm();
     this._selectedTechsObServable = this.dataService.getSelectedTechs();
     this._selectedTechsSubscription = this._selectedTechsObServable.subscribe(
+      displaySelectedTechs => {
+        this.displaySelectedTechs = displaySelectedTechs;
+      }
+    );
+    this._selectedTechsKeysObServable = this.dataService.getSelectedTechKeys();
+    this._selectedTechsKeysSubscription = this._selectedTechsKeysObServable.subscribe(
       selectedTechs => {
         this.selectedTechs = selectedTechs;
       }

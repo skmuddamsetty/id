@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar> <ion-title>Edit Profile</ion-title> </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-content>
+      <div class="card-body">
+        <div class="card-body__box">
+          <div class="card-body__details">
+            <div class="card-subtitle">Your Name</div>
+            <div class="card-text" *ngIf="!this.editNameClicked">John Doe</div>
+            <ion-item *ngIf="this.editNameClicked">
+              <ion-input clearInput value="custom"></ion-input>
+              <ion-button
+                expand="small"
+                shape="round"
+                color="primary"
+                fill="clear"
+                (click)="onUpdateName()"
+                ><ion-icon slot="top" name="logo-google"></ion-icon
+                >Update</ion-button
+              >
+              <ion-button
+                expand="small"
+                shape="round"
+                color="primary"
+                fill="clear"
+                (click)="onNameCancel()"
+                ><ion-icon slot="top" name="logo-google"></ion-icon
+                >Cancel</ion-button
+              >
+            </ion-item>
+          </div>
+          <ion-button
+            expand="small"
+            shape="round"
+            color="primary"
+            fill="clear"
+            (click)="onEditName()"
+            ><ion-icon slot="top" name="logo-google"></ion-icon>Edit</ion-button
+          >
+        </div>
+        <div class="card-body__box">
+          <div class="card-subtitle">Role</div>
+          <div class="card-text">Full Stack Developer</div>
+        </div>
+        <div class="card-body__box">
+          <div class="card-subtitle">Short intro about yourself.</div>
+          <div class="card-text">I'm a Full Stack Developer.</div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

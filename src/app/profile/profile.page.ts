@@ -1,8 +1,10 @@
-import { FilterInterviews } from './../models/filter-interviews.model';
+import { Observable } from 'rxjs';
+import { User } from './../models/user.model';
 import { DataService } from './../services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -11,6 +13,9 @@ import { Router } from '@angular/router';
 })
 export class ProfilePage implements OnInit {
   currentuid = '';
+  user: User;
+  _currentUserObjObServable: Observable<any>;
+  _currentUserObjSubscription: Subscription;
   constructor(
     public dataService: DataService,
     public authService: AuthService,
@@ -18,20 +23,19 @@ export class ProfilePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.authService.getCurrentUser() != null) {
-      this.currentuid = this.authService.getCurrentUser().uid;
-    }
+    this._currentUserObjObServable = this.authService.getCurrentUserObj();
+    this._currentUserObjSubscription = this._currentUserObjObServable.subscribe(
+      user => {
+        this.user = user;
+      }
+    );
   }
 
-  onViewYourInterviews() {
-    const interviewFilters: FilterInterviews = {
-      delete: true,
-      edit: true,
-      createUserId: this.currentuid,
-      interviewId: '',
-      technology: ''
-    };
-    this.dataService.setFilterInterviews(interviewFilters);
-    this.router.navigate(['/interview-experiences-list']);
+  onEditProfile() {
+    this.router.navigate(['/edit-profile']);
+  }
+
+  onActivity() {
+    console.log('Activity Clicked');
   }
 }

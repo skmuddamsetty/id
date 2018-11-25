@@ -12,6 +12,7 @@ import * as firebase from 'firebase';
 @Injectable()
 export class AuthService {
   private _currentuid: BehaviorSubject<any> = new BehaviorSubject('');
+  private _currentUserObj: BehaviorSubject<any> = new BehaviorSubject({});
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
@@ -52,6 +53,19 @@ export class AuthService {
 
   getCurrentUser() {
     return this.afAuth.auth.currentUser;
+  }
+
+  getCurrentUserObj() {
+    return this._currentUserObj.asObservable();
+  }
+
+  setCurrentUserObj(data: any) {
+    const userDoc: User = {
+      uid: data.uid,
+      email: data.email || null,
+      username: data.displayName
+    };
+    this._currentUserObj.next(userDoc);
   }
 
   getCurrentUid() {

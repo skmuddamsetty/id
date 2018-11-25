@@ -23,9 +23,9 @@ export class AppComponent {
       icon: 'home'
     },
     {
-      title: 'Profile',
-      url: '/profile',
-      icon: 'person'
+      title: 'Dashboard',
+      url: '/user-dashboard',
+      icon: 'list'
     },
     // {
     //   title: 'List',
@@ -55,7 +55,8 @@ export class AppComponent {
         console.log('inside app component');
         this.isAuthenticated = true;
         this.authService.setCurrentUid(user.uid);
-        this.router.navigate(['/create-interview']); // change it as needed
+        this.authService.setCurrentUserObj(user);
+        this.router.navigate(['/profile']); // change it as needed
       } else {
         this.isAuthenticated = false;
         console.log('inside app component else');

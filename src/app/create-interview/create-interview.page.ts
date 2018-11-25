@@ -1,3 +1,4 @@
+import { User } from './../models/user.model';
 import { ModalController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import { Category, CategoryId } from './../models/category.model';
@@ -5,13 +6,7 @@ import { Router } from '@angular/router';
 import { AuthService } from './../services/auth.service';
 import { Interview, InterviewId } from './../models/interview.model';
 import { DataService } from './../services/data.service';
-import {
-  Validators,
-  FormGroup,
-  FormControl,
-  FormArray,
-  NgForm
-} from '@angular/forms';
+import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   AngularFirestore,
@@ -43,6 +38,9 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
   _selectedTechsKeysSubscription: Subscription;
   selectedTechs = [];
   displaySelectedTechs = [];
+  user: User;
+  _currentUserObjObServable: Observable<any>;
+  _currentUserObjSubscription: Subscription;
   constructor(
     private dataService: DataService,
     private authService: AuthService,
@@ -67,9 +65,14 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
         this.selectedTechs = selectedTechs;
       }
     );
-    if (this.authService.getCurrentUser() != null) {
-      this.currentuid = this.authService.getCurrentUser().uid;
-    }
+    this._currentUserObjObServable = this.authService.getCurrentUserObj();
+    this._currentUserObjSubscription = this._currentUserObjObServable.subscribe(
+      user => {
+        this.user = user;
+        console.log(this.user);
+        this.currentuid = this.user.uid;
+      }
+    );
     this.categoriesCollection = this.afs.collection<Category>(
       'categories',
       ref => {
@@ -104,7 +107,8 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
       technologies: this.selectedTechs,
       createDate: timestamp,
       location: this.myForm.value.location,
-      role: this.myForm.value.role
+      role: this.myForm.value.role,
+      createUserName: this.user.username
     };
     this.insertInterview(interview);
   }
@@ -148,6 +152,9 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     }
     if (this._selectedTechsKeysSubscription) {
       this._selectedTechsKeysSubscription.unsubscribe();
+    }
+    if (this._currentUserObjSubscription) {
+      this._currentUserObjSubscription.unsubscribe();
     }
     this.myForm.reset();
     this.selectedTechs = [];

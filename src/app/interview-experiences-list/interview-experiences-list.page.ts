@@ -124,6 +124,7 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
           .subscribe(res => {
             console.log(this.interviews);
             this.dataService.setInterviews(this.interviews);
+            this._initInterviewsSubscription.unsubscribe();
           });
       }
     );

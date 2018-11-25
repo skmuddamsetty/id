@@ -1,14 +1,13 @@
+import { Interview } from './../models/interview.model';
 import { ViewAnswersPage } from './../view-answers/view-answers.page';
 import {
   InterviewQuestion,
   InterviewQuestionId
 } from './../models/interview-question.model';
 import { AuthService } from './../services/auth.service';
-import {
-  Conversations
-} from './../models/conversations.model';
+import { Conversations } from './../models/conversations.model';
 import { Conversation } from './../models/conversation.model';
-import { FormGroup, FormControl, Validators} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   AngularFirestoreCollection,
   AngularFirestore
@@ -206,6 +205,13 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
       interviewId: this.currentInterviewId
     };
     this.dataService.insertInterviewQuestion(interviewQuestion);
+    this.afs
+      .collection('interviews')
+      .doc(this.currentInterviewId)
+      .valueChanges()
+      .subscribe((interview: Interview) => {
+        console.log(interview.noOfQuestions);
+      });
     this.presentToast('Your Question has been added Successfully!');
     this.myForm.reset();
   }

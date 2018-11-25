@@ -27,13 +27,15 @@
           <img src="../../assets/icon/favicon.png" />
         </ion-avatar>
         <div class="answer-box-header">
-          <h2 class="answer-box-header__user-name">John Doe</h2>
+          <h2 class="answer-box-header__user-name">
+            {{ item.createUserName | titlecase }}
+          </h2>
           <p class="answer-box-header__date" *ngIf="item.createDate">
             {{ item.createDate.toDate() | date }}
           </p>
         </div>
-        <ion-button fill="outline" slot="end" (click)="onViewInterview(item)"
-          >View</ion-button
+        <ion-button fill="clear" slot="end" (click)="onViewInterview(item)"
+          >Questions</ion-button
         >
         <ion-button fill="clear" slot="end" (click)="onMoreOptions(item)"
           ><ion-icon slot="end" name="more"></ion-icon
@@ -55,7 +57,7 @@
             <div class="card-text">{{ item.role }}</div>
           </div>
           <div class="card-body__box">
-            <div class="card-subtitle">Technologies</div>
+            <div class="card-subtitle">Skills</div>
             <div class="card-text-tech-ul">
               <div
                 class="card-text-tech-li"

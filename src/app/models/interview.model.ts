@@ -7,6 +7,8 @@ export interface Interview {
   updateDate?: any;
   location?: string;
   role?: string;
+  createUserName?: string;
+  noOfQuestions?: number;
 }
 export interface InterviewId extends Interview {
   id: string;

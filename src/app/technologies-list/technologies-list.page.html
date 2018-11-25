@@ -1,18 +1,18 @@
 <ion-header>
-  <ion-toolbar> <ion-title>Technologies List</ion-title> </ion-toolbar>
+  <ion-toolbar> <ion-title>Skills</ion-title> </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <ion-toolbar>
     <ion-searchbar
       animated
-      placeholder="Filter Technologies"
+      placeholder="Filter Skills"
       type="text"
       (ionChange)="onFilterTechnology($event)"
     ></ion-searchbar>
   </ion-toolbar>
   <ion-list>
-    <ion-list-header> Technologies </ion-list-header>
+    <ion-list-header> Skills </ion-list-header>
     <ion-item *ngFor="let entry of selectableTechs">
       <ion-label>{{ entry }}</ion-label>
       <ion-button fill="clear" slot="end" (click)="onAddTechnology(entry)"
@@ -21,7 +21,7 @@
     </ion-item>
   </ion-list>
   <ion-list *ngIf="this.selectedTechs && this.selectedTechs.length > 0">
-    <ion-list-header> Selected Technologies </ion-list-header>
+    <ion-list-header> Selected Skills </ion-list-header>
     <ion-item *ngFor="let entry of selectedTechs">
       <ion-label>{{ entry }}</ion-label>
       <ion-button fill="clear" slot="end" (click)="onDeleteTechnology(entry)"
@@ -31,7 +31,14 @@
   </ion-list>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="closeModal()">
-      <ion-icon name="arrow-dropdown"></ion-icon>
+      <ion-icon
+        name="arrow-dropdown"
+        *ngIf="!this.selectedTechs || this.selectedTechs.length == 0"
+      ></ion-icon>
+      <ion-icon
+        name="thumbs-up"
+        *ngIf="this.selectedTechs && this.selectedTechs.length > 0"
+      ></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

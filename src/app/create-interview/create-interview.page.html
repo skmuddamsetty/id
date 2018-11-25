@@ -29,6 +29,12 @@
       <ion-label position="floating">Role</ion-label>
       <ion-input formControlName="role"></ion-input>
     </ion-item>
+    <ion-list *ngIf="this.selectedTechs && this.selectedTechs.length > 0">
+      <ion-list-header> Selected Skills </ion-list-header>
+      <ion-item *ngFor="let entry of selectedTechs">
+        <ion-label>{{ entry }}</ion-label>
+      </ion-item>
+    </ion-list>
     <ion-button
       class="btn"
       expand="block"
@@ -37,53 +43,8 @@
       fill="outline"
       size="small"
       (click)="onOpenTechnologiesModal()"
-      >Add Technology</ion-button
+      >Add Skills</ion-button
     >
-    <form #f="ngForm" (ngSubmit)="onAddTechnology(f)" class="tech-form">
-      <ion-grid class="tech-grid">
-        <ion-row>
-          <ion-col size="9">
-            <ion-item>
-              <ion-input
-                placeholder="Enter Technology"
-                ngModel
-                required
-                name="technology"
-                autocapitalize
-              ></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col col-auto>
-            <ion-button
-              class="btn"
-              expand="block"
-              shape="round"
-              color="primary"
-              fill="outline"
-              size="small"
-              type="submit"
-              [disabled]="!f.valid"
-              >Add</ion-button
-            >
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </form>
-    <ion-list formArrayName="technologies">
-      <ion-item-sliding
-        *ngFor="let s of myForm.get('technologies').controls; let i = index"
-      >
-        <ion-item>
-          <ion-label floating color="primary">Technology {{ i + 1 }}</ion-label>
-          <ion-input type="text" formControlName="{{i}}"></ion-input>
-        </ion-item>
-        <ion-item-options>
-          <button ion-button color="danger" (click)="onDeleteTechnology(i)">
-            <ion-icon name="trash"></ion-icon>Delete
-          </button>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-list>
     <ion-button
       class="btn"
       expand="full"
@@ -91,7 +52,9 @@
       color="primary"
       fill="solid"
       (click)="onProceed()"
-      [disabled]="!myForm.valid"
+      [disabled]="
+        !myForm.valid || !this.selectedTechs || this.selectedTechs.length == 0
+      "
       >Submit
     </ion-button>
   </form>

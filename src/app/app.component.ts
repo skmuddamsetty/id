@@ -56,7 +56,7 @@ export class AppComponent {
         this.isAuthenticated = true;
         this.authService.setCurrentUid(user.uid);
         this.authService.setCurrentUserObj(user);
-        this.router.navigate(['/profile']); // change it as needed
+        this.router.navigate(['/create-interview']); // change it as needed
       } else {
         this.isAuthenticated = false;
         console.log('inside app component else');

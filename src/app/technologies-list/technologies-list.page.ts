@@ -1,3 +1,6 @@
+import { AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { DataService } from './../services/data.service';
 import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 
@@ -7,21 +10,38 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./technologies-list.page.scss']
 })
 export class TechnologiesListPage implements OnInit {
-  constructor(private modalCtrl: ModalController) {}
-  public initForm = ['Test', 'One', 'Two'];
-  selectableTechs = this.initForm.slice();
+  private skillsCollection: AngularFirestoreCollection<[]>;
+  constructor(
+    private modalCtrl: ModalController,
+    public dataService: DataService,
+    private readonly afs: AngularFirestore
+  ) {}
+  public initForm = [];
+  selectableTechs = [];
   selectedTechs = [];
-  ngOnInit() {}
+  techMap = new Map();
+  ngOnInit() {
+    this.skillsCollection = this.afs
+      .collection('skills')
+      .valueChanges()
+      .subscribe((res: any) => {
+        this.initForm = res[0].skills;
+        this.selectableTechs = this.initForm.slice();
+      });
+  }
 
   closeModal() {
+    this.dataService.setSelectedTechs(this.selectedTechs);
     this.modalCtrl.dismiss();
   }
 
   onAddTechnology(data: any) {
-    for (let i = 0; i < this.selectableTechs.length; i++) {
-      if (this.selectableTechs[i] === data) {
-        this.selectableTechs.splice(i, 1);
-        this.selectedTechs.push(data);
+    if (!this.techMap.has(data)) {
+      for (let i = 0; i < this.selectableTechs.length; i++) {
+        if (this.selectableTechs[i] === data) {
+          this.selectedTechs.push(data);
+          this.techMap.set(data, data);
+        }
       }
     }
   }
@@ -33,7 +53,7 @@ export class TechnologiesListPage implements OnInit {
     for (let i = 0; i < this.selectedTechs.length; i++) {
       if (this.selectedTechs[i] === data) {
         this.selectedTechs.splice(i, 1);
-        this.selectableTechs.push(data);
+        this.techMap.delete(data);
       }
     }
   }

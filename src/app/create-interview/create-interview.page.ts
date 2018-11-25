@@ -37,6 +37,9 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
   interviewsCount = 0;
   categoryId = '';
   newInterviewIdFromDb = '';
+  _selectedTechsObServable: Observable<string[]>;
+  _selectedTechsSubscription: Subscription;
+  selectedTechs = [];
   constructor(
     private dataService: DataService,
     private authService: AuthService,
@@ -47,6 +50,12 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
+    this._selectedTechsObServable = this.dataService.getSelectedTechs();
+    this._selectedTechsSubscription = this._selectedTechsObServable.subscribe(
+      selectedTechs => {
+        this.selectedTechs = selectedTechs;
+      }
+    );
     if (this.authService.getCurrentUser() != null) {
       this.currentuid = this.authService.getCurrentUser().uid;
     }
@@ -75,12 +84,13 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
   }
 
   onProceed() {
+    console.log(this.myForm);
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
     const interview: Interview = {
       title: this.myForm.value.title,
       company: this.myForm.value.company,
       createUserId: this.currentuid,
-      technologies: this.myForm.value.technologies,
+      technologies: this.selectedTechs,
       createDate: timestamp,
       location: this.myForm.value.location,
       role: this.myForm.value.role
@@ -110,30 +120,20 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
   private initForm() {
     const title = null;
     const company = null;
-    const technologies = [];
     this.myForm = new FormGroup({
       title: new FormControl(title, Validators.required),
       company: new FormControl(company, Validators.required),
-      technologies: new FormArray(technologies, Validators.required),
       location: new FormControl(null, Validators.required),
       role: new FormControl(null, Validators.required)
     });
   }
 
-  onAddTechnolog(ngForm: NgForm) {
-    (<FormArray>this.myForm.get('technologies')).push(
-      new FormControl(ngForm.value.technology, Validators.required)
-    );
-    ngForm.resetForm();
-  }
-
-  onDeleteTechnology(index: number) {
-    (<FormArray>this.myForm.get('technologies')).removeAt(index);
-  }
-
   ngOnDestroy() {
     if (this.categoriesSubscription) {
       this.categoriesSubscription.unsubscribe();
+    }
+    if (this._selectedTechsSubscription) {
+      this._selectedTechsSubscription.unsubscribe();
     }
   }
 

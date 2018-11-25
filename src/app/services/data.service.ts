@@ -51,7 +51,18 @@ export class DataService {
     FilterInterviews
   > = new BehaviorSubject(this.emptyFilterFoInterview);
   private _interviews = new BehaviorSubject([]);
+  private _selectedTechsArray: BehaviorSubject<string[]> = new BehaviorSubject(
+    []
+  );
   constructor(private readonly afs: AngularFirestore) {}
+
+  getSelectedTechs() {
+    return this._selectedTechsArray.asObservable();
+  }
+
+  setSelectedTechs(selectedTechs: string[]) {
+    this._selectedTechsArray.next(selectedTechs);
+  }
 
   getInterviews() {
     return this._interviews.asObservable();

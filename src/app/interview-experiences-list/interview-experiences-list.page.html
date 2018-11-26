@@ -27,16 +27,16 @@
           <img src="../../assets/icon/favicon.png" />
         </ion-avatar>
         <div class="answer-box-header">
-          <h2 class="answer-box-header__user-name">
+          <h2
+            class="answer-box-header__user-name"
+            (click)="onUserNameClick(item.createUserId)"
+          >
             {{ item.createUserName | titlecase }}
           </h2>
           <p class="answer-box-header__date" *ngIf="item.createDate">
             {{ item.createDate.toDate() | date }}
           </p>
         </div>
-        <ion-button fill="clear" slot="end" (click)="onViewInterview(item)"
-          >{{ item.noOfQuestions }} Questions</ion-button
-        >
         <ion-button fill="clear" slot="end" (click)="onMoreOptions(item)"
           ><ion-icon slot="end" name="more"></ion-icon
         ></ion-button>
@@ -68,6 +68,26 @@
             </div>
           </div>
         </div>
+        <ion-grid class="no-of-questions-grid" *ngIf="item.noOfQuestions">
+          <ion-row>
+            <ion-col size="9"> </ion-col>
+            <ion-col size="3">
+              <div text-center>
+                <ion-button
+                  class="no-of-questions-btn"
+                  expand="small"
+                  shape="round"
+                  color="primary"
+                  fill="clear"
+                  (click)="onViewInterview(item)"
+                  ><span class="no-of-questions-link"
+                    >{{ item.noOfQuestions }} Questions</span
+                  ></ion-button
+                >
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-card-content>
     </ion-card>
     <ion-grid *ngIf="!this.lastVisible">

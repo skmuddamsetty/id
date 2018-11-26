@@ -36,6 +36,7 @@
   &__user-name {
     margin-top: 0.2rem;
     font-size: 1rem;
+    font-weight: bold;
   }
 }
 
@@ -99,4 +100,14 @@
 
 .container {
   overflow-y: scroll;
+}
+
+.no-of-questions-grid {
+  padding: 0;
+}
+
+.no-of-questions-link {
+  text-decoration: underline;
+  font-size: 0.8rem;
+  text-transform: capitalize;
 }

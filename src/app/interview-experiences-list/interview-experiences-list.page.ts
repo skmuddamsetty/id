@@ -342,4 +342,8 @@ export class InterviewExperiencesListPage implements OnInit, OnDestroy {
   onPostInterviewExperience() {
     this.router.navigate(['/create-interview']);
   }
+
+  onUserNameClick(userId: string) {
+    this.router.navigate(['/profile']);
+  }
 }

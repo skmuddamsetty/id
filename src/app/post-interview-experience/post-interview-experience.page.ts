@@ -47,6 +47,8 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
   _currentUidSubscription: Subscription;
   _currentInterviewIdObServable: Observable<InterviewId>;
   _currentInterviewIdSubscription: Subscription;
+  _interviewsSubscription: Subscription;
+  noOfQuestions = 0;
   constructor(
     private readonly afs: AngularFirestore,
     public router: Router,
@@ -72,6 +74,16 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
         this.currentInterviewId = res.id;
       }
     );
+    this._interviewsSubscription = this.afs
+      .collection('interviews')
+      .doc(this.currentInterviewId)
+      .valueChanges()
+      .subscribe((interview: Interview) => {
+        if (interview.noOfQuestions) {
+          this.noOfQuestions = interview.noOfQuestions;
+        }
+        console.log(this.noOfQuestions);
+      });
     // this.currentInterviewId = 'q4EXvwy2Qogh6JOWglia';
     this.interviewQuestionsCollection = this.afs.collection<InterviewQuestion>(
       'interview-questions',
@@ -195,6 +207,9 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
     if (this._currentInterviewIdSubscription) {
       this._currentInterviewIdSubscription.unsubscribe();
     }
+    if (this._interviewsSubscription) {
+      this._interviewsSubscription.unsubscribe();
+    }
   }
 
   onPostQuestion() {
@@ -204,15 +219,27 @@ export class PostInterviewExperiencePage implements OnInit, OnDestroy {
       createUserId: this.currentuid,
       interviewId: this.currentInterviewId
     };
-    this.dataService.insertInterviewQuestion(interviewQuestion);
     this.afs
-      .collection('interviews')
-      .doc(this.currentInterviewId)
-      .valueChanges()
-      .subscribe((interview: Interview) => {
-        console.log(interview.noOfQuestions);
+      .collection('interview-questions')
+      .add(interviewQuestion)
+      .then(res => {
+        this.afs
+          .doc<InterviewId>('interviews/' + this.currentInterviewId)
+          .update({
+            noOfQuestions: Number(this.noOfQuestions) + 1,
+            updateDate: firebase.firestore.FieldValue.serverTimestamp()
+          })
+          .then(response => {
+            this.presentToast('Your Question has been added Successfully!');
+          })
+          .catch(err => {
+            this.presentToast('There was an error. Please try again!');
+          });
+      })
+      .catch(err => {
+        this.presentToast('There was an error. Please try again!');
       });
-    this.presentToast('Your Question has been added Successfully!');
+
     this.myForm.reset();
   }
 

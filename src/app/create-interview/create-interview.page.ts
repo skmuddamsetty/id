@@ -69,7 +69,6 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     this._currentUserObjSubscription = this._currentUserObjObServable.subscribe(
       user => {
         this.user = user;
-        console.log(this.user);
         this.currentuid = this.user.uid;
       }
     );

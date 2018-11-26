@@ -23,3 +23,14 @@
 .interview-title {
   text-transform: capitalize;
 }
+
+.view-answers-cta {
+  border-bottom: 0.5px solid var(--ripple-color);
+  padding-bottom: 0.1rem;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.view-answers-grid {
+  padding: 0;
+}

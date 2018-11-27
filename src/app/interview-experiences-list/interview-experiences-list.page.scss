@@ -111,3 +111,14 @@
   font-size: 0.8rem;
   text-transform: capitalize;
 }
+
+.view-questions-cta {
+  border-bottom: 0.5px solid var(--ripple-color);
+  padding-bottom: 0.1rem;
+  font-size: 0.8rem;
+  text-transform: none;
+}
+
+.view-questions-grid {
+  padding: 0;
+}

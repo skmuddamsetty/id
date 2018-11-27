@@ -66,4 +66,6 @@ export class HomePage {
       this.router.navigate(['/system-designs-list']);
     }
   }
+
+  onFilter(any: Event) {}
 }

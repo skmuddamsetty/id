@@ -34,11 +34,13 @@
   <ion-card *ngFor="let item of (_interviewAnswers | async)">
     <ion-item class="activated">
       <ion-avatar item-left>
-        <img src="https://avatars.io/facebook/joshua.morony" />
+        <img src="../../assets/icon/favicon.png" />
       </ion-avatar>
       <div class="answer-box-header">
-        <h2 class="answer-box-header__user-name">{{ item.userName }}</h2>
-        <p class="answer-box-header__date">
+        <h2 class="answer-box-header__user-name">
+          {{ item.userName | titlecase }}
+        </h2>
+        <p class="answer-box-header__date" *ngIf="item.createDate">
           {{ item.createDate.toDate() | date }}
         </p>
       </div>

@@ -8,6 +8,14 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-toolbar>
+    <ion-searchbar
+      animated
+      placeholder="Filter"
+      type="text"
+      (ionChange)="onFilterTechnology($event)"
+    ></ion-searchbar>
+  </ion-toolbar>
   <ion-list class="nav-list">
     <div
       *ngFor="let item of (categories | async)"

@@ -20,6 +20,7 @@ import {
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-view-answers',
@@ -28,8 +29,6 @@ import { map } from 'rxjs/operators';
 })
 export class ViewAnswersPage implements OnInit, OnDestroy {
   myForm: FormGroup;
-  _currentUidObServable: Observable<string>;
-  _currentUidSubscription: Subscription;
   _currentInterviewQuestionObServable: Observable<InterviewQuestionId>;
   _currentInterviewQuestionSubscription: Subscription;
   currentuid = '';
@@ -39,6 +38,9 @@ export class ViewAnswersPage implements OnInit, OnDestroy {
   >;
   _interviewAnswers: Observable<InterviewAnswerId[]>;
   noAnswers = true;
+  _currentUserObjObServable: Observable<any>;
+  _currentUserObjSubscription: Subscription;
+  user: User;
   constructor(
     private modalCtrl: ModalController,
     private authService: AuthService,
@@ -51,10 +53,11 @@ export class ViewAnswersPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    this._currentUidObServable = this.authService.getCurrentUid();
-    this._currentUidSubscription = this._currentUidObServable.subscribe(
-      currentUid => {
-        this.currentuid = currentUid;
+    this._currentUserObjObServable = this.authService.getCurrentUserObj();
+    this._currentUserObjSubscription = this._currentUserObjObServable.subscribe(
+      user => {
+        this.user = user;
+        this.currentuid = this.user.uid;
       }
     );
     this._currentInterviewQuestionObServable = this.dataService.getCurrentInterviewQuestion();
@@ -104,7 +107,7 @@ export class ViewAnswersPage implements OnInit, OnDestroy {
       createDate: firebase.firestore.FieldValue.serverTimestamp(),
       createUserId: this.currentuid,
       questionId: this.currentInterviewQuestionId.id,
-      userName: 'John Doe'
+      userName: this.user.username
     };
     // this.dataService.insertInterviewAnswer(interviewAnswer);
     this.afs
@@ -210,11 +213,11 @@ export class ViewAnswersPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this._currentUidSubscription) {
-      this._currentUidSubscription.unsubscribe();
-    }
     if (this._currentInterviewQuestionSubscription) {
       this._currentInterviewQuestionSubscription.unsubscribe();
+    }
+    if (this._currentUserObjSubscription) {
+      this._currentUserObjSubscription.unsubscribe();
     }
   }
 }

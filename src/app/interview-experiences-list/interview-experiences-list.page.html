@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-grid *ngIf="this.noInterviews">
     <ion-row>
       <ion-col>
@@ -22,7 +22,7 @@
   </ion-grid>
   <div class="content">
     <ion-card *ngFor="let item of (_interviews | async)" class="fadeInLeft">
-      <ion-item class="activated">
+      <ion-item class="activated interview-header">
         <ion-avatar item-left>
           <img src="../../assets/icon/favicon.png" />
         </ion-avatar>
@@ -42,7 +42,7 @@
         ></ion-button>
       </ion-item>
 
-      <ion-card-content>
+      <ion-card-content class="interview-card-content">
         <div class="card-body">
           <div class="card-body__box">
             <div class="card-subtitle">Client</div>
@@ -68,26 +68,13 @@
             </div>
           </div>
         </div>
-        <ion-grid class="no-of-questions-grid" *ngIf="item.noOfQuestions">
-          <ion-row>
-            <ion-col size="9"> </ion-col>
-            <ion-col size="3">
-              <div text-center>
-                <ion-button
-                  class="no-of-questions-btn"
-                  expand="small"
-                  shape="round"
-                  color="primary"
-                  fill="clear"
-                  (click)="onViewInterview(item)"
-                  ><span class="no-of-questions-link"
-                    >{{ item.noOfQuestions }} Questions</span
-                  ></ion-button
-                >
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+        <div text-center *ngIf="item.noOfQuestions">
+          <ion-button fill="clear" slot="end" (click)="onViewInterview(item)"
+            ><span class="view-questions-cta"
+              >View all {{ item.noOfQuestions | number }} questions</span
+            ></ion-button
+          >
+        </div>
       </ion-card-content>
     </ion-card>
     <ion-grid *ngIf="!this.lastVisible">

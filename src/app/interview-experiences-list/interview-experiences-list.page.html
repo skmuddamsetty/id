@@ -6,8 +6,7 @@
     <ion-title> Interview Experiences </ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
+<ion-content class="ion-content-below-my-video">
   <ion-grid *ngIf="this.noInterviews">
     <ion-row>
       <ion-col>
@@ -20,6 +19,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
   <div class="content">
     <ion-card *ngFor="let item of (_interviews | async)" class="fadeInLeft">
       <ion-item class="activated interview-header">
@@ -42,7 +42,7 @@
         ></ion-button>
       </ion-item>
 
-      <ion-card-content class="interview-card-content">
+      <ion-card-content>
         <div class="card-body">
           <div class="card-body__box">
             <div class="card-subtitle">Client</div>

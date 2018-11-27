@@ -6,43 +6,83 @@
     <ion-title>Interview</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
-  <ion-card *ngIf="this.interview && this.interview.id">
+<div
+  ion-fixed
+  class="view-interview__question-details"
+  *ngIf="this.interview && this.interview.id"
+>
+  <!--
     <ion-item class="activated">
       <ion-icon name="person" slot="start"></ion-icon>
       <ion-label
         ><div class="interview-title">{{ interview.title }}</div></ion-label
       >
     </ion-item>
-    <ion-card-content>
-      <div class="card-body">
-        <div class="card-body__box">
-          <div class="card-subtitle">Client</div>
-          <div class="card-text">{{ interview.company }}</div>
+  -->
+  <div class="card-body">
+    <div class="card-body__box">
+      <div class="card-subtitle">Client</div>
+      <div class="card-text">{{ interview.company }}</div>
+    </div>
+    <div class="card-body__box">
+      <div class="card-subtitle">Location</div>
+      <div class="card-text">{{ interview.location }}</div>
+    </div>
+    <div class="card-body__box">
+      <div class="card-subtitle">Role</div>
+      <div class="card-text">{{ interview.role }}</div>
+    </div>
+    <div class="card-body__box">
+      <div class="card-subtitle">Technologies</div>
+      <div class="card-text-tech-ul">
+        <div
+          class="card-text-tech-li"
+          *ngFor="let tech of interview.technologies"
+        >
+          {{ tech }}
         </div>
-        <div class="card-body__box">
-          <div class="card-subtitle">Location</div>
-          <div class="card-text">{{ interview.location }}</div>
-        </div>
-        <div class="card-body__box">
-          <div class="card-subtitle">Role</div>
-          <div class="card-text">{{ interview.role }}</div>
-        </div>
-        <div class="card-body__box">
-          <div class="card-subtitle">Technologies</div>
-          <div class="card-text-tech-ul">
-            <div
-              class="card-text-tech-li"
-              *ngFor="let tech of interview.technologies"
-            >
-              {{ tech }}
+      </div>
+    </div>
+  </div>
+</div>
+<ion-content>
+  <!--
+    <ion-card *ngIf="this.interview && this.interview.id">
+      <ion-item class="activated">
+        <ion-icon name="person" slot="start"></ion-icon>
+        <ion-label
+          ><div class="interview-title">{{ interview.title }}</div></ion-label
+        >
+      </ion-item>
+      <ion-card-content>
+        <div class="card-body">
+          <div class="card-body__box">
+            <div class="card-subtitle">Client</div>
+            <div class="card-text">{{ interview.company }}</div>
+          </div>
+          <div class="card-body__box">
+            <div class="card-subtitle">Location</div>
+            <div class="card-text">{{ interview.location }}</div>
+          </div>
+          <div class="card-body__box">
+            <div class="card-subtitle">Role</div>
+            <div class="card-text">{{ interview.role }}</div>
+          </div>
+          <div class="card-body__box">
+            <div class="card-subtitle">Technologies</div>
+            <div class="card-text-tech-ul">
+              <div
+                class="card-text-tech-li"
+                *ngFor="let tech of interview.technologies"
+              >
+                {{ tech }}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </ion-card-content>
-  </ion-card>
+      </ion-card-content>
+    </ion-card>
+  -->
   <ion-grid *ngIf="this.noConversations">
     <ion-row>
       <ion-col>

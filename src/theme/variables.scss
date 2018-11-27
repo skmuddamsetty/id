@@ -86,3 +86,13 @@
 
   --ion-item-background: #fff;
 }
+
+.view-interview {
+  &__question-details {
+    background-color: white;
+    padding: 1rem;
+    color: #6b6f82;
+    box-shadow: 1px 0 3rem rgba(0, 0, 0, 0.1);
+    border-radius: 00 1rem 1rem;
+  }
+}

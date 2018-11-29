@@ -1,3 +1,4 @@
+import { ClientListPageModule } from './client-list/client-list.module';
 import { PaginationService } from './services/pagination.service';
 import { SystemDesignAnswersListPageModule } from './system-design-answers-list/system-design-answers-list.module';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
@@ -34,7 +35,8 @@ import { TechnologiesListPageModule } from './technologies-list/technologies-lis
     AngularFireStorageModule, // imports firebase/storage only needed for storage features,
     SystemDesignAnswersListPageModule,
     ViewAnswersPageModule,
-    TechnologiesListPageModule
+    TechnologiesListPageModule,
+    ClientListPageModule
   ],
   providers: [
     StatusBar,

@@ -1,3 +1,4 @@
+import { ClientListPage } from './../client-list/client-list.page';
 import { User } from './../models/user.model';
 import { ModalController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
@@ -168,11 +169,27 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     this.openModal();
   }
 
+  onOpenClientsModal() {
+    this.openClientModal();
+  }
+
+  async openClientModal() {
+    const modal = await this.modalCtrl.create({
+      component: ClientListPage
+    });
+
+    return await modal.present();
+  }
+
   async openModal() {
     const modal = await this.modalCtrl.create({
       component: TechnologiesListPage
     });
 
     return await modal.present();
+  }
+
+  onSelectClient(e: Event) {
+    e.preventDefault();
   }
 }

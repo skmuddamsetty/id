@@ -29,7 +29,8 @@ const routes: Routes = [
   { path: 'view-answers', loadChildren: './view-answers/view-answers.module#ViewAnswersPageModule' },
   { path: 'technologies-list', loadChildren: './technologies-list/technologies-list.module#TechnologiesListPageModule' },
   { path: 'user-dashboard', loadChildren: './user-dashboard/user-dashboard.module#UserDashboardPageModule' },
-  { path: 'edit-profile', loadChildren: './edit-profile/edit-profile.module#EditProfilePageModule' }
+  { path: 'edit-profile', loadChildren: './edit-profile/edit-profile.module#EditProfilePageModule' },
+  { path: 'client-list', loadChildren: './client-list/client-list.module#ClientListPageModule' }
 ];
 
 @NgModule({

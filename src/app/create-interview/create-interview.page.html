@@ -21,13 +21,29 @@
         placeholder="Enter Title"
       ></ion-input>
     </ion-item>
+    <!--
+      <ion-item>
+        <ion-label position="stacked">Client</ion-label>
+        <ion-input
+          clearInput
+          formControlName="company"
+          placeholder="Enter Client Name"
+        ></ion-input>
+      </ion-item>
+    -->
     <ion-item>
-      <ion-label position="stacked">Client</ion-label>
-      <ion-input
-        clearInput
-        formControlName="company"
-        placeholder="Enter Client Name"
-      ></ion-input>
+      <ion-label>Client</ion-label>
+      <ion-button
+        class="btn"
+        expand="default"
+        shape="round"
+        color="medium"
+        fill="clear"
+        size="small"
+        (click)="onOpenClientsModal()"
+        ><ion-icon slot="end" name="arrow-dropdown"></ion-icon>Select
+        One</ion-button
+      >
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Location</ion-label>
@@ -45,6 +61,20 @@
         placeholder="Enter Role"
       ></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label>Skills</ion-label>
+      <ion-button
+        class="btn"
+        expand="default"
+        shape="round"
+        color="medium"
+        fill="clear"
+        size="small"
+        (click)="onOpenTechnologiesModal()"
+        ><ion-icon slot="end" name="arrow-dropdown"></ion-icon>Select
+        Skills</ion-button
+      >
+    </ion-item>
     <ion-list
       *ngIf="this.displaySelectedTechs && this.displaySelectedTechs.length > 0"
     >
@@ -53,18 +83,6 @@
         <ion-label>{{ entry.value }}</ion-label>
       </ion-item>
     </ion-list>
-    <div text-center>
-      <ion-button
-        class="btn"
-        expand="default"
-        shape="round"
-        color="primary"
-        fill="outline"
-        size="small"
-        (click)="onOpenTechnologiesModal()"
-        >Add Skills</ion-button
-      >
-    </div>
     <ion-button
       class="btn"
       expand="full"

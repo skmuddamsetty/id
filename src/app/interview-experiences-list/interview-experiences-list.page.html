@@ -22,7 +22,7 @@
 
   <div class="content">
     <ion-card *ngFor="let item of (_interviews | async)" class="fadeInLeft">
-      <ion-item class="activated interview-header">
+      <ion-item class="interview-header">
         <ion-avatar item-left>
           <img src="../../assets/icon/favicon.png" />
         </ion-avatar>
@@ -56,25 +56,34 @@
             <div class="card-subtitle">Role</div>
             <div class="card-text">{{ item.role }}</div>
           </div>
-          <div class="card-body__box">
-            <div class="card-subtitle">Skills</div>
-            <div class="card-text-tech-ul">
-              <div
-                class="card-text-tech-li"
-                *ngFor="let tech of item.technologies"
-              >
-                {{ tech }}
+        </div>
+        <ion-grid class="footer">
+          <ion-row>
+            <ion-col size="8" align-self-center>
+              <div class="skills">
+                <ion-badge
+                  color="primary"
+                  *ngFor="let tech of item.technologies"
+                  class="skill"
+                  >{{ tech | titlecase }}</ion-badge
+                >
               </div>
-            </div>
-          </div>
-        </div>
-        <div text-center *ngIf="item.noOfQuestions">
-          <ion-button fill="clear" slot="end" (click)="onViewInterview(item)"
-            ><span class="view-questions-cta"
-              >View all {{ item.noOfQuestions | number }} questions</span
-            ></ion-button
-          >
-        </div>
+            </ion-col>
+            <ion-col size="4" align-self-center>
+              <div *ngIf="item.noOfQuestions">
+                <ion-button
+                  fill="clear"
+                  slot="end"
+                  (click)="onViewInterview(item)"
+                  ><ion-icon slot="end" name="arrow-forward"></ion-icon
+                  ><span class="view-questions-cta"
+                    >View all {{ item.noOfQuestions | number }} questions</span
+                  ></ion-button
+                >
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-card-content>
     </ion-card>
     <ion-grid *ngIf="!this.lastVisible">

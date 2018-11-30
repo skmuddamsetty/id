@@ -54,13 +54,27 @@
       ></ion-input>
     </ion-item>
     <ion-item>
+      <ion-label>Role</ion-label>
+      <ion-button
+        class="btn"
+        expand="default"
+        shape="round"
+        color="medium"
+        fill="clear"
+        size="small"
+        (click)="onOpenClientsModal()"
+        ><ion-icon slot="end" name="arrow-dropdown"></ion-icon>Select
+        One</ion-button
+      >
+    </ion-item>
+    <!-- <ion-item>
       <ion-label position="stacked">Role</ion-label>
       <ion-input
         clearInput
         formControlName="role"
         placeholder="Enter Role"
       ></ion-input>
-    </ion-item>
+    </ion-item> -->
     <ion-item>
       <ion-label>Skills</ion-label>
       <ion-button

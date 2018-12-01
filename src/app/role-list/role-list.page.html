@@ -21,6 +21,18 @@
       </ion-item>
     </ion-radio-group>
   </ion-list>
+  <div text-center>
+    <ion-button
+      class="btn"
+      expand="default"
+      shape="round"
+      color="primary"
+      fill="clear"
+      size="small"
+      (click)="onAddNewRole()"
+      ><ion-icon slot="end" name="add"></ion-icon>Add Role</ion-button
+    >
+  </div>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="closeModal()">
       <ion-icon name="arrow-dropdown" *ngIf="!this.selectedRole"></ion-icon>

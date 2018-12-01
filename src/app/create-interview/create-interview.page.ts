@@ -46,6 +46,9 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
   _selectedRoleObServable: Observable<any>;
   _selectedRoleSubscription: Subscription;
   selectedRole: any;
+  _selectedClientObServable: Observable<any>;
+  _selectedClientSubscription: Subscription;
+  selectedClient: any;
   constructor(
     private dataService: DataService,
     private authService: AuthService,
@@ -83,6 +86,12 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
         this.selectedRole = role;
       }
     );
+    this._selectedClientObServable = this.dataService.getSelectedClient();
+    this._selectedClientSubscription = this._selectedClientObServable.subscribe(
+      (client) => {
+        this.selectedClient = client;
+      }
+    );
     this.categoriesCollection = this.afs.collection<Category>(
       'categories',
       (ref) => {
@@ -112,7 +121,8 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
     const interview: Interview = {
       title: this.myForm.value.title,
-      company: this.myForm.value.company,
+      company: this.selectedClient.key,
+      companyDesc: this.selectedClient.value,
       createUserId: this.currentuid,
       technologies: this.selectedTechs,
       createDate: timestamp,
@@ -167,6 +177,9 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     }
     if (this._selectedRoleSubscription) {
       this._selectedRoleSubscription.unsubscribe();
+    }
+    if (this._selectedClientSubscription) {
+      this._selectedClientSubscription.unsubscribe();
     }
     this.myForm.reset();
     this.selectedTechs = [];

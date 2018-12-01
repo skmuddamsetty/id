@@ -10,6 +10,7 @@ export interface Interview {
   createUserName?: string;
   noOfQuestions?: number;
   roleDesc?: string;
+  companyDesc?: string;
 }
 export interface InterviewId extends Interview {
   id: string;

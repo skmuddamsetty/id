@@ -1,9 +1,42 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>client-list</ion-title>
-  </ion-toolbar>
+  <ion-toolbar> <ion-title>client-list</ion-title> </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-list class="nav-list">
+    <ion-radio-group>
+      <ion-list-header>
+        <ion-searchbar
+          placeholder="Filter Clients"
+          (ionChange)="onFilterClient($event)"
+        ></ion-searchbar>
+      </ion-list-header>
 
+      <ion-item
+        *ngFor="let item of selectableClients"
+        (click)="onClientSelect(item)"
+      >
+        <ion-label>{{ item.value }}</ion-label>
+        <ion-radio [value]="item.key"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <div text-center>
+    <ion-button
+      class="btn"
+      expand="default"
+      shape="round"
+      color="primary"
+      fill="clear"
+      size="small"
+      (click)="onAddnewClient()"
+      ><ion-icon slot="end" name="add"></ion-icon>Add New Client</ion-button
+    >
+  </div>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="closeModal()">
+      <ion-icon name="arrow-dropdown" *ngIf="!this.selectedClient"></ion-icon>
+      <ion-icon name="thumbs-up" *ngIf="this.selectedClient"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

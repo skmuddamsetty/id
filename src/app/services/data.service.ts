@@ -56,6 +56,7 @@ export class DataService {
     string[]
   > = new BehaviorSubject([]);
   private _selectedRole: BehaviorSubject<any> = new BehaviorSubject('');
+  private _selectedClient: BehaviorSubject<any> = new BehaviorSubject('');
   constructor(private readonly afs: AngularFirestore) {}
 
   getSelectedTechs() {
@@ -72,6 +73,14 @@ export class DataService {
 
   setSelectedRole(selectedRole: any) {
     this._selectedRole.next(selectedRole);
+  }
+
+  getSelectedClient() {
+    return this._selectedClient.asObservable();
+  }
+
+  setSelectedClient(selectedClient: any) {
+    this._selectedClient.next(selectedClient);
   }
 
   getSelectedTechKeys() {
@@ -188,7 +197,7 @@ export class DataService {
 
   insertInterview(interview: Interview) {
     this.interviewsCollection = this.afs.collection('interviews');
-    this.interviewsCollection.add(interview).then(res => console.log(res.id));
+    this.interviewsCollection.add(interview).then((res) => console.log(res.id));
   }
 
   updateInterviewCount(id: string, count: number) {

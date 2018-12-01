@@ -41,8 +41,11 @@
         fill="clear"
         size="small"
         (click)="onOpenClientsModal()"
-        ><ion-icon slot="end" name="arrow-dropdown"></ion-icon>Select
-        One</ion-button
+        ><ion-icon slot="end" name="arrow-dropdown"></ion-icon
+        ><span *ngIf="this.selectedClient.value">{{
+          this.selectedClient.value
+        }}</span
+        ><span *ngIf="!this.selectedClient.value">Select One</span></ion-button
       >
     </ion-item>
     <ion-item>

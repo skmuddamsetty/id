@@ -16,6 +16,7 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   isAuthenticated = false;
   loginIcon = 'log-in';
+  showSplash = true;
   public appPages = [
     {
       title: 'Home',
@@ -48,21 +49,6 @@ export class AppComponent {
     private googlePlus: GooglePlus,
     private authService: AuthService
   ) {
-    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-    console.log('timestamp', timestamp);
-    this.afAuth.auth.onAuthStateChanged(user => {
-      if (user) {
-        console.log('inside app component');
-        this.isAuthenticated = true;
-        this.authService.setCurrentUid(user.uid);
-        this.authService.setCurrentUserObj(user);
-        this.router.navigate(['/create-interview']); // change it as needed
-      } else {
-        this.isAuthenticated = false;
-        console.log('inside app component else');
-        this.router.navigate(['/log-in']);
-      }
-    });
     this.initializeApp();
   }
 
@@ -70,6 +56,25 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+      console.log('timestamp', timestamp);
+      this.afAuth.auth.onAuthStateChanged((user) => {
+        if (user) {
+          this.showSplash = false;
+          console.log('inside app component');
+          this.isAuthenticated = true;
+          this.authService.setCurrentUid(user.uid);
+          this.authService.setCurrentUserObj(user);
+          console.log(this.showSplash);
+          // this.router.navigate(['/create-interview']); // change it as needed
+        } else {
+          this.showSplash = false;
+          this.isAuthenticated = false;
+          console.log('inside app component else');
+          this.router.navigate(['/log-in']);
+        }
+      });
+      console.log(this.showSplash);
     });
   }
 

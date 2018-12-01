@@ -55,6 +55,7 @@ export class DataService {
   private _selectedTechsKeysArray: BehaviorSubject<
     string[]
   > = new BehaviorSubject([]);
+  private _selectedRole: BehaviorSubject<any> = new BehaviorSubject('');
   constructor(private readonly afs: AngularFirestore) {}
 
   getSelectedTechs() {
@@ -63,6 +64,14 @@ export class DataService {
 
   setSelectedTechs(selectedTechs: any[]) {
     this._selectedTechsArray.next(selectedTechs);
+  }
+
+  getSelectedRole() {
+    return this._selectedRole.asObservable();
+  }
+
+  setSelectedRole(selectedRole: any) {
+    this._selectedRole.next(selectedRole);
   }
 
   getSelectedTechKeys() {

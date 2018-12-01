@@ -62,19 +62,24 @@
         color="medium"
         fill="clear"
         size="small"
-        (click)="onOpenClientsModal()"
-        ><ion-icon slot="end" name="arrow-dropdown"></ion-icon>Select
-        One</ion-button
+        (click)="onOpenRolesModal()"
+        ><ion-icon slot="end" name="arrow-dropdown"></ion-icon
+        ><span *ngIf="this.selectedRole.value">{{
+          this.selectedRole.value
+        }}</span
+        ><span *ngIf="!this.selectedRole.value">Select One</span></ion-button
       >
     </ion-item>
-    <!-- <ion-item>
-      <ion-label position="stacked">Role</ion-label>
-      <ion-input
-        clearInput
-        formControlName="role"
-        placeholder="Enter Your Role"
-      ></ion-input>
-    </ion-item> -->
+    <!--
+      <ion-item>
+        <ion-label position="stacked">Role</ion-label>
+        <ion-input
+          clearInput
+          formControlName="role"
+          placeholder="Enter Your Role"
+        ></ion-input>
+      </ion-item>
+    -->
     <ion-item>
       <ion-label>Skills</ion-label>
       <ion-button
@@ -105,7 +110,10 @@
       fill="solid"
       (click)="onProceed()"
       [disabled]="
-        !myForm.valid || !this.selectedTechs || this.selectedTechs.length == 0
+        !myForm.valid ||
+        !this.selectedTechs ||
+        this.selectedTechs.length == 0 ||
+        !this.selectedRole.key
       "
       >Submit
     </ion-button>

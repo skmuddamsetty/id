@@ -5,6 +5,7 @@ import {
 import { DataService } from './../services/data.service';
 import { ModalController } from '@ionic/angular';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-technologies-list',
@@ -22,8 +23,9 @@ export class TechnologiesListPage implements OnInit, OnDestroy {
   selectedTechsForDisplay = [];
   selectedTechsKeys = [];
   techMap = new Map();
+  skillsSubscription: Subscription;
   ngOnInit() {
-    this.afs
+    this.skillsSubscription = this.afs
       .collection('skills')
       .valueChanges()
       .subscribe((res: any) => {
@@ -67,7 +69,7 @@ export class TechnologiesListPage implements OnInit, OnDestroy {
   onFilterTechnology(searchText: Event) {
     const text = searchText as any;
     if (text.detail.value) {
-      this.selectableTechs = this.selectableTechs.filter(technology =>
+      this.selectableTechs = this.selectableTechs.filter((technology) =>
         technology.value.toLowerCase().includes(text.detail.value.toLowerCase())
       );
     } else {
@@ -75,5 +77,9 @@ export class TechnologiesListPage implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    if (this.skillsSubscription) {
+      this.skillsSubscription.unsubscribe();
+    }
+  }
 }

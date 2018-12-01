@@ -22,6 +22,7 @@ import { DataService } from './services/data.service';
 import { ViewAnswersPageModule } from './view-answers/view-answers.module';
 import { ScrollableDirective } from './scrollable.directive';
 import { TechnologiesListPageModule } from './technologies-list/technologies-list.module';
+import { RoleListPageModule } from './role-list/role-list.module';
 @NgModule({
   declarations: [AppComponent, ScrollableDirective],
   entryComponents: [],
@@ -36,7 +37,8 @@ import { TechnologiesListPageModule } from './technologies-list/technologies-lis
     SystemDesignAnswersListPageModule,
     ViewAnswersPageModule,
     TechnologiesListPageModule,
-    ClientListPageModule
+    ClientListPageModule,
+    RoleListPageModule
   ],
   providers: [
     StatusBar,

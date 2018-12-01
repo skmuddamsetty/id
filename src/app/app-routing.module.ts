@@ -30,7 +30,8 @@ const routes: Routes = [
   { path: 'technologies-list', loadChildren: './technologies-list/technologies-list.module#TechnologiesListPageModule' },
   { path: 'user-dashboard', loadChildren: './user-dashboard/user-dashboard.module#UserDashboardPageModule' },
   { path: 'edit-profile', loadChildren: './edit-profile/edit-profile.module#EditProfilePageModule' },
-  { path: 'client-list', loadChildren: './client-list/client-list.module#ClientListPageModule' }
+  { path: 'client-list', loadChildren: './client-list/client-list.module#ClientListPageModule' },
+  { path: 'role-list', loadChildren: './role-list/role-list.module#RoleListPageModule' }
 ];
 
 @NgModule({

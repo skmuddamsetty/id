@@ -16,6 +16,7 @@ import {
 import { map } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 import { TechnologiesListPage } from '../technologies-list/technologies-list.page';
+import { RoleListPage } from '../role-list/role-list.page';
 
 @Component({
   selector: 'app-create-interview',
@@ -42,6 +43,9 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
   user: User;
   _currentUserObjObServable: Observable<any>;
   _currentUserObjSubscription: Subscription;
+  _selectedRoleObServable: Observable<any>;
+  _selectedRoleSubscription: Subscription;
+  selectedRole: any;
   constructor(
     private dataService: DataService,
     private authService: AuthService,
@@ -56,40 +60,46 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     this.displaySelectedTechs = [];
     this._selectedTechsObServable = this.dataService.getSelectedTechs();
     this._selectedTechsSubscription = this._selectedTechsObServable.subscribe(
-      displaySelectedTechs => {
+      (displaySelectedTechs) => {
         this.displaySelectedTechs = displaySelectedTechs;
       }
     );
     this._selectedTechsKeysObServable = this.dataService.getSelectedTechKeys();
     this._selectedTechsKeysSubscription = this._selectedTechsKeysObServable.subscribe(
-      selectedTechs => {
+      (selectedTechs) => {
         this.selectedTechs = selectedTechs;
       }
     );
     this._currentUserObjObServable = this.authService.getCurrentUserObj();
     this._currentUserObjSubscription = this._currentUserObjObServable.subscribe(
-      user => {
+      (user) => {
         this.user = user;
         this.currentuid = this.user.uid;
       }
     );
+    this._selectedRoleObServable = this.dataService.getSelectedRole();
+    this._selectedRoleSubscription = this._selectedRoleObServable.subscribe(
+      (role) => {
+        this.selectedRole = role;
+      }
+    );
     this.categoriesCollection = this.afs.collection<Category>(
       'categories',
-      ref => {
+      (ref) => {
         return ref.where('key', '==', 'interviewexperience');
       }
     );
     this._categories = this.categoriesCollection.snapshotChanges().pipe(
-      map(actions =>
-        actions.map(a => {
+      map((actions) =>
+        actions.map((a) => {
           const data = a.payload.doc.data() as Category;
           const id = a.payload.doc.id;
           return { id, ...data };
         })
       )
     );
-    this.categoriesSubscription = this._categories.subscribe(res => {
-      res.map(category => {
+    this.categoriesSubscription = this._categories.subscribe((res) => {
+      res.map((category) => {
         this.interviewsCount = category.count;
         this.categoryId = category.id;
       });
@@ -107,7 +117,8 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
       technologies: this.selectedTechs,
       createDate: timestamp,
       location: this.myForm.value.location,
-      role: this.myForm.value.role,
+      role: this.selectedRole.key,
+      roleDesc: this.selectedRole.value,
       createUserName: this.user.username
     };
     this.insertInterview(interview);
@@ -115,7 +126,7 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
 
   insertInterview(interview: Interview) {
     this.interviewsCollection = this.afs.collection('interviews');
-    this.interviewsCollection.add(interview).then(res => {
+    this.interviewsCollection.add(interview).then((res) => {
       const interviewId: InterviewId = {
         createUserId: this.currentuid,
         id: res.id,
@@ -137,9 +148,7 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     const company = null;
     this.myForm = new FormGroup({
       title: new FormControl(title, Validators.required),
-      company: new FormControl(company, Validators.required),
-      location: new FormControl(null, Validators.required),
-      role: new FormControl(null, Validators.required)
+      location: new FormControl(null, Validators.required)
     });
   }
 
@@ -155,6 +164,9 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
     }
     if (this._currentUserObjSubscription) {
       this._currentUserObjSubscription.unsubscribe();
+    }
+    if (this._selectedRoleSubscription) {
+      this._selectedRoleSubscription.unsubscribe();
     }
     this.myForm.reset();
     this.selectedTechs = [];
@@ -191,5 +203,17 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
 
   onSelectClient(e: Event) {
     e.preventDefault();
+  }
+
+  onOpenRolesModal() {
+    this.openRolesModal();
+  }
+
+  async openRolesModal() {
+    const modal = await this.modalCtrl.create({
+      component: RoleListPage
+    });
+
+    return await modal.present();
   }
 }

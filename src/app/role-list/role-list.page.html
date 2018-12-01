@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar> <ion-title>Roles</ion-title> </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list class="nav-list">
+    <ion-radio-group>
+      <ion-list-header>
+        <ion-searchbar
+          placeholder="Filter Roles"
+          (ionChange)="onFilterRole($event)"
+        ></ion-searchbar>
+      </ion-list-header>
+
+      <ion-item
+        *ngFor="let item of selectableRoles"
+        (click)="onRoleSelect(item)"
+      >
+        <ion-label>{{ item.value }}</ion-label>
+        <ion-radio [value]="item.key"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="closeModal()">
+      <ion-icon name="arrow-dropdown" *ngIf="!this.selectedRole"></ion-icon>
+      <ion-icon name="thumbs-up" *ngIf="this.selectedRole"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

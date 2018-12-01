@@ -92,28 +92,6 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
         this.selectedClient = client;
       }
     );
-    this.categoriesCollection = this.afs.collection<Category>(
-      'categories',
-      (ref) => {
-        return ref.where('key', '==', 'interviewexperience');
-      }
-    );
-    this._categories = this.categoriesCollection.snapshotChanges().pipe(
-      map((actions) =>
-        actions.map((a) => {
-          const data = a.payload.doc.data() as Category;
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        })
-      )
-    );
-    this.categoriesSubscription = this._categories.subscribe((res) => {
-      res.map((category) => {
-        this.interviewsCount = category.count;
-        this.categoryId = category.id;
-      });
-    });
-    this.interviewsCollection = this.afs.collection('interviews');
   }
 
   onProceed() {
@@ -143,14 +121,50 @@ export class CreateInterviewPage implements OnInit, OnDestroy {
         title: '',
         company: ''
       };
-      this.interviewsCount = this.interviewsCount + 1;
-      this.dataService.updateInterviewCount(
-        this.categoryId,
-        this.interviewsCount
-      );
+      this.updateInterviewsCount();
       this.dataService.setInterviewId(interviewId);
       this.newInterviewIdFromDb = interviewId.id;
     });
+  }
+
+  updateInterviewsCount() {
+    let searchCategory = '';
+    if (this.selectedRole) {
+      console.log(this.selectedRole);
+      if (this.selectedRole.value.toLowerCase().includes('java')) {
+        searchCategory = 'javainterviews';
+      } else {
+        searchCategory = 'interviewexperience';
+      }
+      console.log(searchCategory);
+      this.categoriesCollection = this.afs.collection<Category>(
+        'categories',
+        (ref) => {
+          return ref.where('key', '==', searchCategory);
+        }
+      );
+      this._categories = this.categoriesCollection.snapshotChanges().pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as Category;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
+      this.categoriesSubscription = this._categories.subscribe((res) => {
+        res.map((category) => {
+          this.interviewsCount = category.count;
+          this.categoryId = category.id;
+          if (this.categoryId) {
+            this.afs.doc<Category>('categories/' + this.categoryId).update({
+              count: this.interviewsCount + 1
+            });
+            this.categoriesSubscription.unsubscribe();
+          }
+        });
+      });
+    }
   }
 
   private initForm() {

@@ -16,9 +16,15 @@
   height: 95vh;
   background-image: linear-gradient(
     to right bottom,
-    rgba(white, 0.8),
+    rgba(#fcfcfc, 0.8),
     rgba(#ccc, 0.8)
   );
+  // background-image: linear-gradient(
+  //   to right bottom,
+  //   rgba(#e9e9e9, 0.8),
+  //   rgba(#f6f6f6, 0.8)
+  // );
+
   background-size: cover;
   background-position: top;
   // -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);

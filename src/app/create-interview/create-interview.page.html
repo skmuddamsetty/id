@@ -42,10 +42,13 @@
         size="small"
         (click)="onOpenClientsModal()"
         ><ion-icon slot="end" name="arrow-dropdown"></ion-icon
-        ><span *ngIf="this.selectedClient.value">{{
-          this.selectedClient.value
-        }}</span
-        ><span *ngIf="!this.selectedClient.value">Select One</span></ion-button
+        ><span
+          class="select-text"
+          *ngIf="this.selectedClient && this.selectedClient.value"
+          >{{ this.selectedClient.value }}</span
+        ><span class="select-text" *ngIf="!this.selectedClient"
+          >Select One</span
+        ></ion-button
       >
     </ion-item>
     <ion-item>
@@ -67,22 +70,15 @@
         size="small"
         (click)="onOpenRolesModal()"
         ><ion-icon slot="end" name="arrow-dropdown"></ion-icon
-        ><span *ngIf="this.selectedRole.value">{{
-          this.selectedRole.value
-        }}</span
-        ><span *ngIf="!this.selectedRole.value">Select One</span></ion-button
+        ><span
+          class="select-text"
+          *ngIf="this.selectedRole && this.selectedRole.value"
+          >{{ this.selectedRole.value }}</span
+        ><span class="select-text" *ngIf="!this.selectedRole"
+          >Select One</span
+        ></ion-button
       >
     </ion-item>
-    <!--
-      <ion-item>
-        <ion-label position="stacked">Role</ion-label>
-        <ion-input
-          clearInput
-          formControlName="role"
-          placeholder="Enter Your Role"
-        ></ion-input>
-      </ion-item>
-    -->
     <ion-item>
       <ion-label>Skills</ion-label>
       <ion-button
@@ -93,8 +89,8 @@
         fill="clear"
         size="small"
         (click)="onOpenTechnologiesModal()"
-        ><ion-icon slot="end" name="arrow-dropdown"></ion-icon>Select
-        Skills</ion-button
+        ><ion-icon slot="end" name="arrow-dropdown"></ion-icon
+        ><span class="select-text">Select Skills</span></ion-button
       >
     </ion-item>
     <ion-list

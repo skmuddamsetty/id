@@ -22,14 +22,14 @@ export class LogInPage implements OnInit {
     if (this.platform.is('cordova')) {
       this.authService
         .onNativeGoogleLogin()
-        .then(res => {
+        .then((res) => {
           this.router.navigate(['/home']);
         })
         .catch();
     } else {
       this.authService
         .onWebGoogleLogin()
-        .then(res => {
+        .then((res) => {
           this.router.navigate(['/home']);
         })
         .catch();

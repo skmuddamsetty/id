@@ -21,7 +21,10 @@
   </ion-grid>
 
   <div class="content">
-    <ion-card *ngFor="let item of (_interviews | async)" class="fadeInLeft">
+    <ion-card
+      *ngFor="let item of (_interviews | async)"
+      class="fadeInLeft interview-card"
+    >
       <ion-item class="interview-header">
         <ion-avatar item-left>
           <img src="../../assets/icon/favicon.png" />

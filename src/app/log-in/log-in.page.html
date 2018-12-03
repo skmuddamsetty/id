@@ -1,9 +1,28 @@
 <ion-header>
   <ion-toolbar> <ion-title> Welcome </ion-title> </ion-toolbar>
 </ion-header>
-
+<div *ngIf="showSpinner">
+  <div class="splash">
+    <div class="sk-circle">
+      <div class="sk-circle1 sk-child"></div>
+      <div class="sk-circle2 sk-child"></div>
+      <div class="sk-circle3 sk-child"></div>
+      <div class="sk-circle4 sk-child"></div>
+      <div class="sk-circle5 sk-child"></div>
+      <div class="sk-circle6 sk-child"></div>
+      <div class="sk-circle7 sk-child"></div>
+      <div class="sk-circle8 sk-child"></div>
+      <div class="sk-circle9 sk-child"></div>
+      <div class="sk-circle10 sk-child"></div>
+      <div class="sk-circle11 sk-child"></div>
+      <div class="sk-circle12 sk-child"></div>
+    </div>
+    <div>Signing in</div>
+  </div>
+</div>
 <ion-content>
-  <div class="my-header">
+  <div class="my-header" *ngIf="showSpinner"></div>
+  <div class="my-header" *ngIf="!showSpinner">
     <div class="my-header__text-box">
       <h1 class="heading-primary">
         <span class="heading-primary--main">myriad</span>
@@ -22,34 +41,4 @@
       >
     </div>
   </div>
-  <!--
-    <div class="header__text-box">
-      <h1 class="heading-primary">
-        <span class="heading-primary--main">outdoors</span>
-        <span class="heading-primary--sub">is where life happens</span>
-      </h1>
-      <a href="#" class="btn btn--white btn--animated">discover our tours</a>
-    </div>
-  -->
-  <!--
-    <ion-card>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <div text-center><h3>Sign in With</h3></div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <ion-card-content>
-        <ion-button
-          expand="full"
-          shape="round"
-          color="primary"
-          fill="solid"
-          (click)="onGoogleSignIn()"
-          ><ion-icon slot="start" name="logo-google"></ion-icon>Google</ion-button
-        >
-      </ion-card-content>
-    </ion-card>
-  -->
 </ion-content>

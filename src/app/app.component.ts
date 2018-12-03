@@ -66,7 +66,7 @@ export class AppComponent {
           this.authService.setCurrentUid(user.uid);
           this.authService.setCurrentUserObj(user);
           console.log(this.showSplash);
-          // this.router.navigate(['/create-interview']); // change it as needed
+          this.router.navigate(['/home']); // change it as needed
         } else {
           this.showSplash = false;
           this.isAuthenticated = false;

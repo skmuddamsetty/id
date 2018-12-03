@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, LoadingController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -9,28 +9,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./log-in.page.scss']
 })
 export class LogInPage implements OnInit {
+  showSpinner = false;
   constructor(
     private platform: Platform,
     public authService: AuthService,
-    public router: Router,
-    public loadingController: LoadingController
+    public router: Router
   ) {}
 
   ngOnInit() {}
 
   onGoogleSignIn() {
+    this.showSpinner = true;
     if (this.platform.is('cordova')) {
       this.authService
         .onNativeGoogleLogin()
         .then((res) => {
-          this.router.navigate(['/home']);
+          this.showSpinner = false;
+          // this.router.navigate(['/home']);
         })
         .catch();
     } else {
       this.authService
         .onWebGoogleLogin()
         .then((res) => {
-          this.router.navigate(['/home']);
+          this.showSpinner = false;
+          // this.router.navigate(['/home']);
         })
         .catch();
     }
